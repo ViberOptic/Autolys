@@ -1,3 +1,4 @@
+// src/pages/RecommendationPage.jsx
 import { useState } from 'react';
 import { useCars } from '../hooks/useCars';
 import CarCard from '../components/CarCard';
@@ -14,8 +15,7 @@ export default function RecommendationPage({ onCarClick }) {
   };
 
   return (
-    // PERBAIKAN: Hapus styles layout global
-    <div className="pt-8 px-4">
+    <div className="pt-8 px-4 pb-10">
       <div className="max-w-[1600px] mx-auto">
         
         <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 mb-10 text-white shadow-xl relative overflow-hidden">
@@ -47,7 +47,11 @@ export default function RecommendationPage({ onCarClick }) {
                 <CarCard key={car.id} car={car} onClick={onCarClick} />
               ))}
             </div>
-            <ModernPagination currentPage={page} totalPages={pagination.totalPages} onPageChange={handlePageChange} />
+            
+            {/* PERBAIKAN: Wrapper untuk memberikan jarak pada pagination */}
+            <div className="py-8">
+              <ModernPagination currentPage={page} totalPages={pagination.totalPages} onPageChange={handlePageChange} />
+            </div>
           </>
         )}
       </div>

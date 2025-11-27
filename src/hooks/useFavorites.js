@@ -1,7 +1,7 @@
 // src/hooks/useFavorites.js
 import { useState, useEffect, useCallback } from 'react';
 import favoriteService from '../services/favoriteService';
-import { getUserIdentifier } from '../services/userService';
+// Hapus import getUserIdentifier karena tidak dipakai lagi
 
 export function useIsFavorited(carId) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -13,11 +13,10 @@ export function useIsFavorited(carId) {
         return;
     }
     
-    const userId = getUserIdentifier();
-    const { success, data } = await favoriteService.getFavorites(userId);
+    // Tidak perlu kirim userId
+    const { success, data } = await favoriteService.getFavorites();
     
     if (success && Array.isArray(data)) {
-      // Pastikan perbandingan tipe data aman (integer)
       setIsFavorited(data.includes(parseInt(carId)));
     }
     setLoading(false);
@@ -30,23 +29,18 @@ export function useIsFavorited(carId) {
   const toggleFavorite = async () => {
     if (!carId) return;
 
-    const userId = getUserIdentifier();
-    
     // Optimistic Update
     const previousState = isFavorited;
     setIsFavorited(!previousState);
 
+    // Cukup kirim car_id saja
     const result = await favoriteService.toggleFavorite({
-      user_identifier: userId,
       car_id: parseInt(carId)
     });
 
     if (!result.success) {
-      // Revert jika gagal
       setIsFavorited(previousState);
       console.error('Gagal update favorit:', result.message);
-    } else {
-      console.log(`Favorit ${result.action}: Car ID ${carId}`);
     }
     
     return result.success;
@@ -61,8 +55,8 @@ export function useFavorites() {
 
   const fetchFavorites = useCallback(async () => {
     setLoading(true);
-    const userId = getUserIdentifier();
-    const { success, data } = await favoriteService.getFavorites(userId);
+    // Tidak perlu kirim userId
+    const { success, data } = await favoriteService.getFavorites();
     
     if (success) {
       setFavorites(data || []);

@@ -1,3 +1,4 @@
+// src/pages/EVPage.jsx
 import { useState } from 'react';
 import { useCars } from '../hooks/useCars';
 import CarCard from '../components/CarCard';
@@ -14,8 +15,7 @@ export default function EVPage({ onCarClick }) {
   const handlePageChange = (p) => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
   return (
-    // PERBAIKAN: Hapus styles layout global
-    <div className="pt-8 px-4">
+    <div className="pt-8 px-4 pb-10">
       <div className="max-w-[1600px] mx-auto">
         
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -63,7 +63,11 @@ export default function EVPage({ onCarClick }) {
                 <button onClick={handleReset} className="mt-4 text-blue-600 hover:underline text-sm">Reset Filter</button>
               </div>
             )}
-            <ModernPagination currentPage={page} totalPages={pagination.totalPages} onPageChange={handlePageChange} />
+            
+            {/* PERBAIKAN: Wrapper untuk memberikan jarak pada pagination */}
+            <div className="py-8">
+              <ModernPagination currentPage={page} totalPages={pagination.totalPages} onPageChange={handlePageChange} />
+            </div>
           </>
         )}
       </div>

@@ -1,15 +1,17 @@
 // src/services/favoriteService.js
 import { supabase } from '../config/supabase';
 
-class FavoriteService {
-  async getFavorites(userIdentifier) {
-    if (!userIdentifier) return { success: false, message: "User ID missing" };
+// Kita buat satu kunci global untuk semua pengguna
+const GLOBAL_SHARED_KEY = 'global_public_shared_v1';
 
+class FavoriteService {
+  // Hapus parameter userIdentifier, kita pakai GLOBAL_SHARED_KEY
+  async getFavorites() {
     try {
       const { data, error } = await supabase
         .from('favorites')
         .select('car_id')
-        .eq('user_identifier', userIdentifier);
+        .eq('user_identifier', GLOBAL_SHARED_KEY);
       
       if (error) throw error;
       return { success: true, data: data.map(f => f.car_id) };
@@ -19,23 +21,25 @@ class FavoriteService {
     }
   }
 
+  // Hapus parameter user_identifier dari input
   async toggleFavorite(data) {
-    const { car_id, user_identifier } = data;
-    if (!car_id || !user_identifier) return { success: false, message: "Invalid data" };
+    const { car_id } = data; // Kita cuma butuh car_id sekarang
+    
+    if (!car_id) return { success: false, message: "Invalid data" };
 
     try {
-      // Cek apakah data sudah ada
+      // Cek apakah data sudah ada untuk GLOBAL KEY
       const { data: existing, error: fetchError } = await supabase
         .from('favorites')
         .select('id')
-        .eq('user_identifier', user_identifier)
+        .eq('user_identifier', GLOBAL_SHARED_KEY)
         .eq('car_id', car_id)
-        .maybeSingle(); // Gunakan maybeSingle agar tidak error jika kosong
+        .maybeSingle();
 
       if (fetchError) throw fetchError;
 
       if (existing) {
-        // Hapus jika sudah ada
+        // Hapus
         const { error: deleteError } = await supabase
           .from('favorites')
           .delete()
@@ -44,10 +48,13 @@ class FavoriteService {
         if (deleteError) throw deleteError;
         return { success: true, action: 'removed' };
       } else {
-        // Tambah jika belum ada
+        // Tambah dengan GLOBAL KEY
         const { error: insertError } = await supabase
           .from('favorites')
-          .insert([{ user_identifier, car_id }]);
+          .insert([{ 
+            user_identifier: GLOBAL_SHARED_KEY, 
+            car_id: car_id 
+          }]);
           
         if (insertError) throw insertError;
         return { success: true, action: 'added' };

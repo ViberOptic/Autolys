@@ -1,7 +1,8 @@
+// src/pages/FavoritePage.jsx
 import { useState, useEffect } from 'react';
 import { carData } from '../data/cars';
 import favoriteService from '../services/favoriteService';
-import { getUserIdentifier } from '../services/userService';
+// Hapus import getUserIdentifier
 import CarCard from '../components/CarCard';
 import ModernPagination from '../components/common/ModernPagination';
 import { Heart, ArrowRight, Car } from 'lucide-react';
@@ -16,8 +17,8 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
   useEffect(() => {
     const fetchFavorites = async () => {
       setLoading(true);
-      const userId = getUserIdentifier();
-      const { success, data } = await favoriteService.getFavorites(userId);
+      // Tidak perlu userId lagi
+      const { success, data } = await favoriteService.getFavorites();
       if (success && Array.isArray(data)) {
         const favCars = carData.filter(car => data.includes(car.id));
         setAllFavorites(favCars);
@@ -41,8 +42,7 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
   };
 
   return (
-    // PERBAIKAN: Hapus min-h-screen, bg-slate-50, dan pb-24. Ganti jadi pt-8 px-4.
-    <div className="pt-8 px-4">
+    <div className="pt-8 px-4 pb-10">
       <div className="max-w-[1600px] mx-auto">
         
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-8 flex items-center justify-between">
@@ -74,11 +74,12 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
                 <CarCard key={car.id} car={car} onClick={onCarClick} />
               ))}
             </div>
-            <ModernPagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+            <div className="py-8">
+                <ModernPagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+            </div>
           </>
         ) : (
-          // Tampilan Empty State yang lebih proporsional (tidak memanjang full screen)
-          <div className="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-3xl border border-dashed border-slate-300 text-center shadow-sm">
+          <div className="flex flex-col items-center justify-center py-40 px-4 bg-white rounded-3xl border border-dashed border-slate-300 text-center shadow-sm">
             <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center border border-red-100 mb-4">
               <Heart className="w-10 h-10 text-red-400" />
             </div>

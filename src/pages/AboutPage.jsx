@@ -35,7 +35,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-8 pb-24 px-4">
+    // PERBAIKAN: Mengurangi padding bottom yang berlebihan (pb-24 -> pb-10)
+    // dan menghapus min-h-screen karena sudah dihandle di layout utama
+    <div className="pt-8 px-4 pb-10">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* 1. Header Section */}

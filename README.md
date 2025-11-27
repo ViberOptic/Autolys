@@ -31,17 +31,17 @@ Project ini dibangun menggunakan teknologi web modern:
 
 Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda.
 
-### 1. Prasyarat
+#### 1. Prasyarat
 Pastikan Anda sudah menginstal **Node.js** (disarankan versi 18 atau terbaru).
 
-### 2. Instalasi Dependensi
+#### 2. Instalasi Dependensi
 Buka terminal di folder proyek, lalu jalankan:
 
 ```bash
 npm install
 ```
 
-### 3. Menjalankan Proyek di Local
+#### 3. Menjalankan Proyek di Local
 
 ```bash
 npm run dev

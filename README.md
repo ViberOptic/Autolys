@@ -1,68 +1,41 @@
-# Resep Nusantara
+# ⚡ Autolys
 
-Aplikasi web modern untuk menemukan resep masakan dan minuman khas Indonesia. Dibangun sebagai Progressive Web App (PWA), aplikasi ini dapat diinstal di perangkat Anda dan berfungsi penuh bahkan saat offline.
+**Katalog Mobil Masa Depan: Electric & Hybrid Vehicle Explorer**
 
-## Memulai Proyek
+Autolys adalah aplikasi web modern berbasis Progressive Web App (PWA) yang dirancang untuk membantu pengguna menemukan, membandingkan, dan menyimpan koleksi mobil listrik (EV) dan hybrid impian mereka. Aplikasi ini menawarkan pengalaman pengguna yang cepat, responsif, dan dapat berjalan secara offline.
 
-Pastikan Anda sudah menginstal Node.js di sistem Anda (disarankan v18+).
+![Autolys Banner](./public/maskable-icon-512x512.png)
 
-### Buat Proyek React dengan Vite
-Buka terminal di lokasi folder yang Anda inginkan, lalu jalankan perintah ini untuk membuat proyek baru.
+## 🌟 Fitur Utama
 
-```bash
-npm create vite@latest resep-nusantara -- --template react
-```
-lalu masuk ke direktory proyek
+* **Katalog Komprehensif:** Jelajahi berbagai koleksi mobil listrik murni (BEV) dan Hybrid (HEV/PHEV).
+* **Pencarian & Filter Pintar:** Filter mobil berdasarkan merek, kategori teknologi (Listrik/Hybrid), dan rentang harga.
+* **Rekomendasi Sultan:** Halaman khusus yang mengurasi mobil-mobil mewah performa tinggi.
+* **Simpan Favorit:** Fitur *Wishlist* yang terintegrasi dengan **Supabase** (Cloud Database) agar data tersimpan aman.
+* **Detail Spesifikasi:** Informasi lengkap mengenai tenaga (HP), tipe mesin, harga estimasi, dan deskripsi kendaraan.
+* **PWA Ready:** Dapat diinstal di Smartphone (Android/iOS) dan Desktop, serta berfungsi dalam kondisi koneksi lambat/offline.
+* **Responsif:** Tampilan antarmuka yang optimal baik di Desktop maupun Mobile (dengan navigasi bar yang berbeda).
 
-```bash
-cd resep-nusantara
-```
-### Instalasi Semua Dependensi
+## 🛠️ Teknologi yang Digunakan
 
-```bash
-npm install lucide-react
+Project ini dibangun menggunakan teknologi web modern:
 
-npm install -D vite-plugin-pwa
+* **Frontend:** [React 19](https://react.dev/)
+* **Build Tool:** [Vite](https://vitejs.dev/)
+* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+* **Database:** [Supabase](https://supabase.com/) (untuk fitur Favorit Realtime)
+* **Icons:** [Lucide React](https://lucide.dev/)
+* **PWA:** [Vite Plugin PWA](https://vite-pwa-org.netlify.app/)
 
-npm install tailwindcss @tailwindcss/vite
-```
-### Mulai Koding
+## 🚀 Cara Menjalankan Project
 
-Setup awal selesai! Sekarang Anda bisa mulai membuat struktur folder (src/components, src/pages, src/data) dan mengisi file-file kode seperti HomePage.jsx, makanan.js, dan lainnya.
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi di komputer lokal Anda.
 
-### Mode Pengembangan
+### 1. Prasyarat
+Pastikan Anda sudah menginstal **Node.js** (disarankan versi 18 atau terbaru).
 
-```bash
-npm run dev
-```
-
-### Mode Produksi
-
-```bash
-npm run build
-```
-
-### Pengujian PWA di Mobile
-
-#### Bangun aplikasi dengan perintah npm run build
-
-#### install serve untuk menjalankan folder dist hasil build
+### 2. Instalasi Dependensi
+Buka terminal di folder proyek, lalu jalankan:
 
 ```bash
-npm install -g serve
-```
-
-#### jalankan server produksi
-
-```bash
-serve -s dist
-```
-Perhatikan alamat Network yang muncul di terminal (misal: http://192.168.1.10:3000).
-
-Akses dari HP Anda:
-
-Pastikan laptop dan HP Anda terhubung ke jaringan Wi-Fi yang sama.
-
-Buka browser Chrome di HP Anda dan ketikkan alamat Network tadi.
-
-Aplikasi akan terbuka, dan Anda akan melihat opsi untuk menginstalnya
+npm install

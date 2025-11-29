@@ -51,12 +51,12 @@ export default function EVPage({ onCarClick }) {
         ) : (
           <>
             <div className="flex justify-between items-center mb-4">
-              {/* PERBAIKAN: Bungkus angka dengan notranslate & mx-1 untuk spasi */}
-              <span className="text-sm font-medium text-slate-600">
-                Menampilkan 
-                <span className="notranslate font-bold text-slate-800 mx-1">{pagination.total}</span> 
-                mobil
-              </span>
+              {/* UPDATE: Menggunakan Flexbox & Gap untuk spasi yang konsisten di semua bahasa */}
+              <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600">
+                <span>Menampilkan</span>
+                <span className="notranslate font-bold text-slate-800">{pagination.total}</span>
+                <span>mobil</span>
+              </div>
             </div>
             {cars.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

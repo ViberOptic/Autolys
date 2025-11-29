@@ -9,12 +9,9 @@ export default function ManageCarsPage() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  
-  // State Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCar, setEditingCar] = useState(null);
 
-  // Fetch Data
   const fetchCars = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -32,13 +29,11 @@ export default function ManageCarsPage() {
     fetchCars();
   }, []);
 
-  // Filter Search
   const filteredCars = cars.filter(car => 
     car.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     car.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handlers
   const handleOpenAdd = () => {
     setEditingCar(null);
     setIsModalOpen(true);
@@ -59,7 +54,7 @@ export default function ManageCarsPage() {
 
     if (result.success) {
       setIsModalOpen(false);
-      fetchCars(); // Refresh list
+      fetchCars();
     } else {
       alert('Error: ' + result.message);
     }
@@ -76,11 +71,25 @@ export default function ManageCarsPage() {
     }
   };
 
+  // Helper render harga pintar untuk list
+  const renderPrice = (priceStr) => {
+    if (!priceStr) return null;
+    const parts = priceStr.match(/^(\D*)(\d[\d\.,]*)(\D*)$/);
+    if (!parts) return <span className="text-blue-700 font-bold text-sm notranslate">{priceStr}</span>;
+    
+    return (
+      <div className="flex items-baseline gap-1 text-blue-700 font-bold text-sm">
+        {parts[1] && <span>{parts[1]}</span>}
+        <span className="notranslate">{parts[2]}</span>
+        {parts[3] && <span>{parts[3].trim()}</span>}
+      </div>
+    );
+  };
+
   return (
     <div className="pt-8 px-4 pb-24 min-h-screen bg-slate-50">
       <div className="max-w-[1600px] mx-auto">
         
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-3">
@@ -99,7 +108,6 @@ export default function ManageCarsPage() {
           </button>
         </div>
 
-        {/* Search */}
         <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 sticky top-20 z-30">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -113,7 +121,6 @@ export default function ManageCarsPage() {
           </div>
         </div>
 
-        {/* Content */}
         {loading ? (
           <div className="text-center py-20">
             <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto" />
@@ -129,14 +136,12 @@ export default function ManageCarsPage() {
             {filteredCars.map((car) => (
               <div key={car.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-all relative">
                 
-                {/* Image & Actions Overlay */}
                 <div className="relative h-48">
                   <img 
                     src={car.image_url} 
                     alt={car.name} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
-                  {/* Tombol Edit/Delete selalu muncul di mobile, hover di desktop */}
                   <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                     <button 
                       onClick={() => handleOpenEdit(car)}
@@ -161,7 +166,8 @@ export default function ManageCarsPage() {
                 <div className="p-4">
                   <h3 className="font-bold text-slate-800 truncate">{car.name}</h3>
                   <p className="text-xs text-slate-500 mb-2">{car.brand}</p>
-                  <p className="text-blue-700 font-bold text-sm">{car.price}</p>
+                  {/* Render Harga Pintar */}
+                  {renderPrice(car.price)}
                 </div>
               </div>
             ))}

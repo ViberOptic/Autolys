@@ -16,7 +16,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
     description: ''
   });
 
-  // Reset atau isi form saat modal dibuka
   useEffect(() => {
     if (isOpen) {
       if (initialData) {
@@ -37,7 +36,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
     }
   }, [initialData, isOpen]);
 
-  // Format tampilan harga otomatis saat mengetik angka
   const handlePriceValueChange = (e) => {
     const val = e.target.value;
     setFormData(prev => {
@@ -58,20 +56,33 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
     setLoading(false);
   };
 
+  // Helper Render Preview Harga Pintar
+  const renderPreviewPrice = (priceStr) => {
+    if (!priceStr) return <span className="text-xs text-blue-600 font-medium">-</span>;
+    
+    const parts = priceStr.match(/^(\D*)(\d[\d\.,]*)(\D*)$/);
+    if (!parts) return <span className="text-xs text-blue-600 font-bold notranslate">{priceStr}</span>;
+
+    return (
+      <div className="flex items-baseline gap-1 text-xs text-blue-600 font-bold">
+        {parts[1] && <span>{parts[1]}</span>}
+        <span className="notranslate">{parts[2]}</span>
+        {parts[3] && <span>{parts[3].trim()}</span>}
+      </div>
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-      {/* Backdrop Gelap dengan Blur */}
       <div 
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      {/* Konten Modal */}
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
         
-        {/* Header */}
         <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
           <h2 className="text-xl font-bold text-slate-800">
             {initialData ? 'Edit Kendaraan' : 'Tambah Kendaraan Baru'}
@@ -81,12 +92,10 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
           </button>
         </div>
 
-        {/* Body Form (Scrollable) */}
         <div className="p-6 overflow-y-auto">
           <form id="carForm" onSubmit={handleSubmit} className="space-y-6">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Kolom Kiri */}
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Nama Model</label>
@@ -134,7 +143,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                 </div>
               </div>
 
-              {/* Kolom Kanan */}
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Harga (Angka)</label>
@@ -146,9 +154,11 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                     value={formData.price_value}
                     onChange={handlePriceValueChange}
                   />
-                  <p className="text-xs text-blue-600 mt-1 font-medium text-right">
-                    Preview: {formData.price || '-'}
-                  </p>
+                  <div className="flex justify-end items-center gap-1 mt-1">
+                    <span className="text-xs text-blue-600 font-medium">Preview:</span>
+                    {/* Render Preview Harga Pintar */}
+                    {renderPreviewPrice(formData.price)}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -178,7 +188,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
               </div>
             </div>
 
-            {/* URL Gambar */}
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase mb-1">URL Gambar</label>
               <div className="flex gap-2">
@@ -202,7 +211,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
               </div>
             </div>
 
-            {/* Deskripsi */}
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Deskripsi Lengkap</label>
               <textarea
@@ -218,7 +226,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
           </form>
         </div>
 
-        {/* Footer */}
         <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
           <button
             onClick={onClose}

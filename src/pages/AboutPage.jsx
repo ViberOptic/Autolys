@@ -12,26 +12,10 @@ export default function AboutPage({ onNavigate }) {
   };
 
   const features = [
-    {
-      icon: <Smartphone className="w-6 h-6 text-blue-500" />,
-      title: "PWA Ready",
-      desc: "Dapat diinstal di perangkat mobile dan berjalan offline layaknya aplikasi native."
-    },
-    {
-      icon: <Zap className="w-6 h-6 text-yellow-500" />,
-      title: "Performa Cepat",
-      desc: "Dibangun dengan Vite dan React untuk pengalaman pengguna yang instan dan mulus."
-    },
-    {
-      icon: <Cloud className="w-6 h-6 text-indigo-500" />,
-      title: "Cloud Database",
-      desc: "Data favorit Anda tersimpan aman di cloud menggunakan Supabase Realtime."
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6 text-green-500" />,
-      title: "Data Terpercaya",
-      desc: "Spesifikasi mobil dikurasi dari sumber terpercaya untuk akurasi tinggi."
-    }
+    { icon: <Smartphone className="w-6 h-6 text-blue-500" />, title: "PWA Ready", desc: "Dapat diinstal di perangkat mobile dan berjalan offline layaknya aplikasi native." },
+    { icon: <Zap className="w-6 h-6 text-yellow-500" />, title: "Performa Cepat", desc: "Dibangun dengan Vite dan React untuk pengalaman pengguna yang instan dan mulus." },
+    { icon: <Cloud className="w-6 h-6 text-indigo-500" />, title: "Cloud Database", desc: "Data favorit Anda tersimpan aman di cloud menggunakan Supabase Realtime." },
+    { icon: <ShieldCheck className="w-6 h-6 text-green-500" />, title: "Data Terpercaya", desc: "Spesifikasi mobil dikurasi dari sumber terpercaya untuk akurasi tinggi." }
   ];
 
   const techStack = [
@@ -47,7 +31,6 @@ export default function AboutPage({ onNavigate }) {
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* 1. Header Section */}
-        {/* PERBAIKAN: HAPUS 'overflow-hidden' agar dropdown bahasa tidak terpotong */}
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center relative">
           
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-t-3xl" />
@@ -75,13 +58,14 @@ export default function AboutPage({ onNavigate }) {
           {/* Area Pengaturan & Aksi */}
           <div className="mt-8 flex flex-col items-center gap-4">
             
-            {/* Language Switcher khusus Mobile/Card */}
-            <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-xl w-full max-w-sm border border-slate-100">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                    <Globe className="w-3 h-3" /> Pengaturan Bahasa
+            {/* Language Switcher UI */}
+            {/* PERBAIKAN: Ditambahkan class 'md:hidden' agar hilang di Desktop (karena sudah ada di Navbar) */}
+            <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-xl w-full max-w-sm border border-slate-100 shadow-sm relative z-20 md:hidden">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                    <Globe className="w-3.5 h-3.5" /> Pengaturan Bahasa
                 </span>
-                <div className="w-full relative z-20"> {/* Tambah z-index */}
-                  <LanguageSwitcher />
+                <div className="w-full">
+                  <LanguageSwitcher variant="boxed" />
                 </div>
             </div>
 
@@ -107,7 +91,7 @@ export default function AboutPage({ onNavigate }) {
         </div>
 
         {/* 2. Features Grid */}
-        <div className="relative z-0"> {/* Ensure z-index is lower than dropdown */}
+        <div className="relative z-0">
           <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">Keunggulan Aplikasi</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {features.map((feature, index) => (
@@ -124,9 +108,7 @@ export default function AboutPage({ onNavigate }) {
           </div>
         </div>
 
-        {/* 3. Tech Stack & Developer Info (Code omitted for brevity, same as previous) */}
-        {/* ... (Paste sisa kode tech stack dan footer di sini sama persis seperti sebelumnya) ... */}
-        
+        {/* 3. Tech Stack & Developer Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-0">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
@@ -147,8 +129,8 @@ export default function AboutPage({ onNavigate }) {
             <div className="space-y-3">
               <p className="text-slate-600 font-medium">Muhammad Azka Wijasena (21120123140125)</p>
               <div className="flex gap-3 pt-2">
-                <a href="https://github.com/ViberOptic" target="_blank" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200"><Github className="w-4 h-4" /></a>
-                <a href="https://www.instagram.com/m_azka_w/" target="_blank" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200"><Instagram className="w-4 h-4" /></a>
+                <a href="https://github.com/ViberOptic" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200 transition-colors"><Github className="w-4 h-4" /></a>
+                <a href="https://www.instagram.com/m_azka_w/" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200 transition-colors"><Instagram className="w-4 h-4" /></a>
               </div>
             </div>
           </div>

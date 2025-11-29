@@ -19,11 +19,16 @@ export default function LoadingAnimation({ fadeIn, progress }) {
       </div>
        
       {/* Status Text & Percentage */}
+      {/* PERBAIKAN: Hapus 'notranslate' dari div parent ini agar anak-anaknya bisa diatur secara individu */}
       <div className="flex justify-between items-center mb-8">
+        
+        {/* Teks Status: Tetap BISA diterjemahkan (User Request) */}
         <span className="text-slate-500 text-xs font-medium tracking-wide uppercase">
           {progress < 100 ? 'Memuat Mesin...' : 'Siap Meluncur'}
         </span>
-        <span className="text-blue-700 text-xs font-bold font-mono">
+
+        {/* Angka Persentase: DIBLOKIR dari translate agar tidak stuck/error saat angka berubah cepat */}
+        <span className="text-blue-700 text-xs font-bold font-mono notranslate">
           {Math.min(Math.round(progress), 100)}%
         </span>
       </div>

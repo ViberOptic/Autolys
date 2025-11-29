@@ -51,7 +51,12 @@ export default function EVPage({ onCarClick }) {
         ) : (
           <>
             <div className="flex justify-between items-center mb-4">
-              <span className="text-sm font-medium text-slate-600">Menampilkan {pagination.total} mobil</span>
+              {/* PERBAIKAN: Bungkus angka dengan notranslate & mx-1 untuk spasi */}
+              <span className="text-sm font-medium text-slate-600">
+                Menampilkan 
+                <span className="notranslate font-bold text-slate-800 mx-1">{pagination.total}</span> 
+                mobil
+              </span>
             </div>
             {cars.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -64,7 +69,6 @@ export default function EVPage({ onCarClick }) {
               </div>
             )}
             
-            {/* PERBAIKAN: Wrapper untuk memberikan jarak pada pagination */}
             <div className="py-8">
               <ModernPagination currentPage={page} totalPages={pagination.totalPages} onPageChange={handlePageChange} />
             </div>

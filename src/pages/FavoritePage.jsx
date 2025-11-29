@@ -1,6 +1,6 @@
 // src/pages/FavoritePage.jsx
 import { useState, useEffect } from 'react';
-import { supabase } from '../config/supabase'; // Import supabase
+import { supabase } from '../config/supabase';
 import favoriteService from '../services/favoriteService';
 import CarCard from '../components/CarCard';
 import ModernPagination from '../components/common/ModernPagination';
@@ -17,10 +17,8 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
     const fetchFavoriteCars = async () => {
       setLoading(true);
       try {
-        // 1. Ambil daftar ID mobil yang difavoritkan user dari service
         const { success, data: favoriteIds } = await favoriteService.getFavorites();
         
-        // Jika tidak ada data atau error, set kosong
         if (!success || !favoriteIds || favoriteIds.length === 0) {
           setFavorites([]);
           setTotalCount(0);
@@ -28,8 +26,6 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
           return;
         }
 
-        // 2. Ambil detail mobil dari tabel 'cars' di Supabase berdasarkan ID tersebut
-        // Menggunakan filter .in() untuk mencocokkan ID dan pagination range()
         const from = (page - 1) * ITEMS_PER_PAGE;
         const to = from + ITEMS_PER_PAGE - 1;
 
@@ -46,14 +42,13 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
 
       } catch (err) {
         console.error("Error fetching favorite cars:", err.message);
-        // Bisa tambahkan state error UI jika diperlukan
       } finally {
         setLoading(false);
       }
     };
 
     fetchFavoriteCars();
-  }, [page]); // Re-fetch saat halaman berubah
+  }, [page]); 
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
@@ -66,7 +61,6 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
     <div className="pt-8 px-4 pb-10">
       <div className="max-w-[1600px] mx-auto">
         
-        {/* Header Section */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-red-50 rounded-full text-red-500 border border-red-100">
@@ -75,7 +69,9 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Koleksi Favorit</h1>
               <p className="text-slate-500 text-sm mt-1">
-                {totalCount} mobil impian tersimpan
+                {/* PERBAIKAN: Ditambahkan mr-1 untuk jarak paksa */}
+                <span className="notranslate font-bold text-slate-800 mr-1">{totalCount}</span> 
+                Mobil impian tersimpan
               </p>
             </div>
           </div>
@@ -87,7 +83,6 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
           </button>
         </div>
 
-        {/* Content Section */}
         {loading ? (
           <div className="text-center py-20">
             <div className="flex justify-center mb-4">

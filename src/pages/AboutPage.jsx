@@ -1,7 +1,8 @@
 // src/pages/AboutPage.jsx
 import logoUrl from '../assets/LOGORN.png';
 import { useAuth } from '../context/AuthContext';
-import { Zap, Smartphone, Cloud, Code, Heart, ShieldCheck, Github, Instagram, LogOut, Settings } from 'lucide-react';
+import LanguageSwitcher from '../components/common/LanguageSwitcher';
+import { Zap, Smartphone, Cloud, Code, Heart, ShieldCheck, Github, Instagram, LogOut, Settings, Globe } from 'lucide-react';
 
 export default function AboutPage({ onNavigate }) {
   const { signOut } = useAuth();
@@ -42,12 +43,14 @@ export default function AboutPage({ onNavigate }) {
   ];
 
   return (
-    <div className="pt-8 px-4 pb-10">
+    <div className="pt-8 px-4 pb-24 md:pb-10">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* 1. Header Section */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+        {/* PERBAIKAN: HAPUS 'overflow-hidden' agar dropdown bahasa tidak terpotong */}
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center relative">
+          
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-t-3xl" />
           
           <img 
             src={logoUrl} 
@@ -69,30 +72,42 @@ export default function AboutPage({ onNavigate }) {
             Platform katalog mobil listrik dan hybrid masa depan. Temukan spesifikasi lengkap, harga, dan simpan mobil impian Anda dalam satu aplikasi modern.
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-3 flex-wrap">
-            {/* Tombol Kelola Katalog */}
-            <button 
-              onClick={() => onNavigate('manage')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white hover:bg-slate-800 font-medium rounded-xl transition-all active:scale-95 shadow-lg shadow-slate-200"
-            >
-              <Settings className="w-4 h-4" />
-              Kelola Katalog
-            </button>
+          {/* Area Pengaturan & Aksi */}
+          <div className="mt-8 flex flex-col items-center gap-4">
+            
+            {/* Language Switcher khusus Mobile/Card */}
+            <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-xl w-full max-w-sm border border-slate-100">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                    <Globe className="w-3 h-3" /> Pengaturan Bahasa
+                </span>
+                <div className="w-full relative z-20"> {/* Tambah z-index */}
+                  <LanguageSwitcher />
+                </div>
+            </div>
 
-            {/* Tombol Logout */}
-            <button 
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 font-medium rounded-xl transition-all active:scale-95 border border-red-100 shadow-sm"
-            >
-              <LogOut className="w-4 h-4" />
-              LogOut
-            </button>
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-3 flex-wrap mt-2 relative z-10">
+              <button 
+                onClick={() => onNavigate('manage')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white hover:bg-slate-800 font-medium rounded-xl transition-all active:scale-95 shadow-lg shadow-slate-200"
+              >
+                <Settings className="w-4 h-4" />
+                Kelola Katalog
+              </button>
+
+              <button 
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 font-medium rounded-xl transition-all active:scale-95 border border-red-100 shadow-sm"
+              >
+                <LogOut className="w-4 h-4" />
+                LogOut
+              </button>
+            </div>
           </div>
         </div>
 
         {/* 2. Features Grid */}
-        <div>
+        <div className="relative z-0"> {/* Ensure z-index is lower than dropdown */}
           <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">Keunggulan Aplikasi</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {features.map((feature, index) => (
@@ -109,10 +124,10 @@ export default function AboutPage({ onNavigate }) {
           </div>
         </div>
 
-        {/* 3. Tech Stack & Developer Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* Tech Stack Card */}
+        {/* 3. Tech Stack & Developer Info (Code omitted for brevity, same as previous) */}
+        {/* ... (Paste sisa kode tech stack dan footer di sini sama persis seperti sebelumnya) ... */}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-0">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
               <Code className="w-5 h-5 text-slate-400" />
@@ -120,17 +135,10 @@ export default function AboutPage({ onNavigate }) {
             </div>
             <div className="flex flex-wrap gap-2">
               {techStack.map((tech, idx) => (
-                <span 
-                  key={idx} 
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold ${tech.color}`}
-                >
-                  {tech.name}
-                </span>
+                <span key={idx} className={`px-3 py-1 rounded-lg text-xs font-semibold ${tech.color}`}>{tech.name}</span>
               ))}
             </div>
           </div>
-
-          {/* Developer Card */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
               <Heart className="w-5 h-5 text-red-400 fill-current" />
@@ -138,37 +146,16 @@ export default function AboutPage({ onNavigate }) {
             </div>
             <div className="space-y-3">
               <p className="text-slate-600 font-medium">Muhammad Azka Wijasena (21120123140125)</p>
-              <p className="text-sm text-slate-500">
-                Dikembangkan dengan dedikasi untuk menghadirkan pengalaman eksplorasi otomotif terbaik bagi pengguna Indonesia.
-              </p>
               <div className="flex gap-3 pt-2">
-                <a 
-                  href="https://github.com/ViberOptic" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200 transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                </a>
-                <a 
-                  href="https://www.instagram.com/m_azka_w/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200 transition-colors"
-                >
-                  <Instagram className="w-4 h-4" />
-                </a>
+                <a href="https://github.com/ViberOptic" target="_blank" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200"><Github className="w-4 h-4" /></a>
+                <a href="https://www.instagram.com/m_azka_w/" target="_blank" className="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-slate-200"><Instagram className="w-4 h-4" /></a>
               </div>
             </div>
           </div>
-
         </div>
 
-        {/* Footer Copyright */}
         <div className="text-center pt-4">
-          <p className="text-xs text-slate-400">
-            © 2025 Autolys Project. All rights reserved.
-          </p>
+          <p className="text-xs text-slate-400">© 2025 Autolys Project. All rights reserved.</p>
         </div>
 
       </div>

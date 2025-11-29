@@ -1,3 +1,4 @@
+/* src/index.css */
 @import "tailwindcss";
 
 * {
@@ -8,4 +9,55 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Mencegah body turun ke bawah karena top-bar Google */
+  top: 0 !important; 
+  position: static !important; 
+}
+
+/* --- HIDE GOOGLE TRANSLATE WIDGETS --- */
+
+/* Sembunyikan Top Bar / Banner */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+/* Sembunyikan Icon Gantung / Floating Widget */
+.goog-te-gadget-icon {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Sembunyikan Tooltip Popup saat hover text */
+#goog-gt-tt, 
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-te-hover-frame {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Hilangkan highlight biru/kuning pada teks */
+.goog-text-highlight {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Sembunyikan iframe widget jika ada */
+iframe[class*="goog-te-banner"],
+iframe[id*=":1.container"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Pastikan Font tidak berubah */
+font {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  box-sizing: content-box;
 }

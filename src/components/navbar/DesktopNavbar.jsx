@@ -1,5 +1,6 @@
 // src/components/navbar/DesktopNavbar.jsx
 import logoUrl from '../../assets/LOGORN.png';
+import LanguageSwitcher from '../common/LanguageSwitcher'; // Import component
 
 export default function DesktopNavbar({ currentPage, onNavigate }) {
   const navItems = [
@@ -34,21 +35,29 @@ export default function DesktopNavbar({ currentPage, onNavigate }) {
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="flex items-center space-x-2">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
-                  currentPage === item.id
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-4">
+            {/* Navigation Links */}
+            <div className="flex items-center space-x-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
+                    currentPage === item.id
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Separator */}
+            <div className="h-6 w-px bg-slate-200 mx-2"></div>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
           </div>
          
         </div>

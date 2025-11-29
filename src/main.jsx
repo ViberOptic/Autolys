@@ -1,4 +1,3 @@
-// src/main.jsx
 import { StrictMode, useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthProvider, useAuth } from './context/AuthContext'; 
@@ -17,6 +16,32 @@ import MobileNavbar from './components/navbar/MobileNavbar';
 import './index.css'
 import PWABadge from './PWABadge';
 
+// --- FIX GOOGLE TRANSLATE CRASH (Monkey Patch) ---
+if (typeof Node === 'function' && Node.prototype) {
+  const originalRemoveChild = Node.prototype.removeChild;
+  Node.prototype.removeChild = function (child) {
+    if (child.parentNode !== this) {
+      if (console) {
+        console.warn('Cannot remove a child from a different parent', child, this);
+      }
+      return child;
+    }
+    return originalRemoveChild.apply(this, arguments);
+  };
+
+  const originalInsertBefore = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function (newNode, referenceNode) {
+    if (referenceNode && referenceNode.parentNode !== this) {
+      if (console) {
+        console.warn('Cannot insert before a reference node from a different parent', referenceNode, this);
+      }
+      return newNode;
+    }
+    return originalInsertBefore.apply(this, arguments);
+  };
+}
+// ---------------------------------------------------
+
 function AppContent() {
   const { user, loading: authLoading } = useAuth();
   
@@ -31,6 +56,7 @@ function AppContent() {
   useEffect(() => {
     if (!showSplash && !authLoading) {
       if (!user) {
+        // Izinkan akses ke register juga saat belum login
         if (page !== 'register') {
           setPage('login');
         }

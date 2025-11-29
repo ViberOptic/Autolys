@@ -1,7 +1,9 @@
+// src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User, Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import logoUrl from '../assets/LOGORN.png';
+import LanguageSwitcher from '../components/common/LanguageSwitcher'; // Import Komponen Bahasa
 
 export default function RegisterPage({ onNavigate }) {
   const { signUp } = useAuth();
@@ -29,19 +31,29 @@ export default function RegisterPage({ onNavigate }) {
     }
   };
 
+  // Tampilan Sukses Registrasi
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-        <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl text-center border border-slate-100">
-          <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail className="w-8 h-8" />
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 relative">
+        {/* Tombol Bahasa (Pojok Kanan Atas Layar) */}
+        <div className="absolute top-6 right-6">
+          <LanguageSwitcher variant="boxed" />
+        </div>
+
+        <div className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl shadow-xl shadow-slate-200/50 text-center border border-slate-100 animate-in fade-in zoom-in-95">
+          <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+            <Mail className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Cek Email Anda</h2>
-          <p className="text-slate-500 mb-6">
-            Link konfirmasi telah dikirim ke <strong>{formData.email}</strong>. Silakan verifikasi untuk melanjutkan.
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">Cek Email Anda</h2>
+          <p className="text-slate-600 mb-8 leading-relaxed">
+            Link konfirmasi telah dikirim ke <strong className="text-slate-900">{formData.email}</strong>.<br/>
+            Silakan verifikasi email Anda untuk melanjutkan.
           </p>
-          <button onClick={() => onNavigate('login')} className="text-blue-600 font-medium hover:underline">
-            Kembali ke Login
+          <button 
+            onClick={() => onNavigate('login')} 
+            className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 hover:underline gap-2"
+          >
+            Kembali ke Login <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -49,48 +61,64 @@ export default function RegisterPage({ onNavigate }) {
   }
 
   return (
-    <div className="min-h-screen flex bg-white">
-      {/* Kolom Kiri - Image / Decor (Reverse dari Login) */}
-      <div className="hidden lg:block lg:w-1/2 relative bg-slate-900">
-        <div className="absolute inset-0 bg-gradient-to-bl from-indigo-600/90 to-purple-900/90 z-10 mix-blend-multiply" />
+    <div className="min-h-screen flex bg-white font-sans">
+      {/* BAGIAN KIRI: Gambar Visual (Desktop Only) - Kebalikan dari Login */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-slate-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-bl from-indigo-900/90 via-slate-900/80 to-slate-900/90 z-10 mix-blend-multiply" />
         <img 
           src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1000" 
           alt="Electric Car" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-110 transition-transform duration-[20s] ease-linear"
         />
+        
         <div className="relative z-20 h-full flex flex-col justify-between p-16 text-white">
-          <img src={logoUrl} alt="Autolys" className="h-10 w-auto self-start opacity-80" />
-          <div>
-            <h2 className="text-4xl font-bold mb-4">Mulai Perjalanan Anda</h2>
-            <p className="text-lg text-indigo-100 max-w-md">
+          <img src={logoUrl} alt="Autolys" className="h-10 w-auto self-start opacity-90 drop-shadow-md" />
+          <div className="space-y-4 mb-10">
+            <h2 className="text-5xl font-bold leading-tight">
+              Mulai Perjalanan <br/> Anda
+            </h2>
+            <p className="text-lg text-indigo-100 max-w-md leading-relaxed">
               Buat akun untuk menyimpan daftar mobil favorit, mendapatkan rekomendasi personal, dan akses fitur eksklusif.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Kolom Kanan - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-12 lg:px-24 py-12">
+      {/* BAGIAN KANAN: Form Register */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-12 lg:px-24 py-12 relative">
+        
+        {/* Tombol Ganti Bahasa (Pojok Kanan Atas Container Form) */}
+        <div className="absolute top-6 right-6 z-20">
+          <LanguageSwitcher variant="default" />
+        </div>
+
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">Buat Akun Baru</h2>
-          <p className="text-slate-500 mb-8">Bergabung dengan komunitas Autolys.</p>
+          
+          <div className="mb-10 text-center sm:text-left">
+            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+              Buat Akun Baru
+            </h2>
+            <p className="text-slate-500 text-lg">
+              Bergabung dengan komunitas Autolys sekarang.
+            </p>
+          </div>
 
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-sm font-medium rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="w-5 h-5 shrink-0" />
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+              <div className="relative group">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-slate-800 transition-colors" />
                 <input
                   type="email"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 outline-none transition-all duration-200"
                   placeholder="nama@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -99,14 +127,14 @@ export default function RegisterPage({ onNavigate }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-slate-800 transition-colors" />
                 <input
                   type="password"
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 outline-none transition-all duration-200"
                   placeholder="Minimal 6 karakter"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
@@ -117,19 +145,24 @@ export default function RegisterPage({ onNavigate }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full py-4 px-6 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg shadow-slate-900/20 hover:shadow-slate-900/30 transition-all transform hover:-translate-y-0.5 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Daftar Akun'}
-              {!loading && <ArrowRight className="w-4 h-4" />}
+              {!loading && <ArrowRight className="w-5 h-5" />}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-slate-600">
-            Sudah punya akun?{' '}
-            <button onClick={() => onNavigate('login')} className="font-semibold text-blue-600 hover:text-blue-700 hover:underline">
-              Masuk
-            </button>
-          </p>
+          <div className="mt-8 text-center pt-6 border-t border-slate-100">
+            <p className="text-slate-600">
+              Sudah punya akun?{' '}
+              <button 
+                onClick={() => onNavigate('login')} 
+                className="font-bold text-blue-600 hover:text-blue-700 hover:underline transition-all"
+              >
+                Masuk
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>

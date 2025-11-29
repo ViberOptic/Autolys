@@ -38,15 +38,15 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
 
   const handlePriceValueChange = (e) => {
     const val = e.target.value;
-    setFormData(prev => {
-      let displayPrice = prev.price;
-      if (val) {
-        const num = parseInt(val);
-        if (num >= 1000000000) displayPrice = `Rp ${(num / 1000000000).toFixed(1)} M`;
-        else if (num >= 1000000) displayPrice = `Rp ${(num / 1000000).toFixed(0)} Jt`;
-      }
-      return { ...prev, price_value: val, price: displayPrice };
-    });
+    // Simpan harga dalam format standar "Rp 850.000.000" agar konsisten di database
+    // Komponen lain (CarCard) yang akan mengubahnya jadi "Juta/Miliar"
+    let displayPrice = '';
+    if (val) {
+      const num = parseInt(val);
+      displayPrice = `Rp ${num.toLocaleString('id-ID')}`;
+    }
+    
+    setFormData(prev => ({ ...prev, price_value: val, price: displayPrice }));
   };
 
   const handleSubmit = async (e) => {
@@ -56,21 +56,30 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
     setLoading(false);
   };
 
-  // Helper Render Preview Harga Pintar (KONSISTEN)
-  const renderPreviewPrice = (priceStr) => {
-    if (!priceStr) return <span className="text-xs text-blue-600 font-medium">-</span>;
+  // Preview untuk Admin (Notasi Pintar)
+  const renderPreviewPrice = (numericVal) => {
+    if (!numericVal) return <span className="text-xs text-blue-600 font-medium">-</span>;
     
-    const parts = priceStr.match(/^(\D*)(\d[\d\.,]*)(\D*)$/);
-    if (!parts) return <span className="text-xs text-blue-600 font-bold notranslate">{priceStr}</span>;
+    const num = parseInt(numericVal);
+    let value = num.toLocaleString('id-ID');
+    let unit = '';
+
+    if (num >= 1000000000000) {
+      value = (num / 1000000000000).toFixed(1).replace(/\.0$/, '');
+      unit = 'Triliun';
+    } else if (num >= 1000000000) {
+      value = (num / 1000000000).toFixed(1).replace(/\.0$/, '');
+      unit = 'Miliar';
+    } else if (num >= 1000000) {
+      value = (num / 1000000).toFixed(0);
+      unit = 'Juta';
+    }
 
     return (
       <div className="flex items-baseline gap-1 text-xs text-blue-600 font-bold">
-        {/* Prefix (Rp) - No Translate */}
-        {parts[1] && <span className="notranslate">{parts[1]}</span>}
-        {/* Angka - No Translate */}
-        <span className="notranslate">{parts[2]}</span>
-        {/* Suffix (M/Jt) - Translate Allowed */}
-        {parts[3] && <span>{parts[3].trim()}</span>}
+        <span className="notranslate">Rp</span>
+        <span className="notranslate">{value}</span>
+        <span>{unit}</span>
       </div>
     );
   };
@@ -98,6 +107,7 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
         <div className="p-6 overflow-y-auto">
           <form id="carForm" onSubmit={handleSubmit} className="space-y-6">
             
+            {/* Form Input Fields (Sama seperti sebelumnya) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
@@ -105,7 +115,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                   <input
                     required
                     type="text"
-                    placeholder="Contoh: Ioniq 5 Signature"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
@@ -119,7 +128,7 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                     value={formData.brand}
                     onChange={e => setFormData({...formData, brand: e.target.value})}
                   >
-                    {['Hyundai', 'Wuling', 'Toyota', 'Lexus', 'BMW', 'Tesla', 'MG', 'Kia', 'BYD', 'Honda', 'Nissan'].map(brand => (
+                    {['Hyundai', 'Wuling', 'Toyota', 'Lexus', 'BMW', 'Tesla', 'MG', 'Kia', 'BYD', 'Honda', 'Nissan', 'Mazda', 'Volvo', 'Ferrari', 'Porsche', 'Citroen', 'Suzuki', 'Mini', 'Neta', 'Chery', 'Mitsubishi'].map(brand => (
                       <option key={brand} value={brand}>{brand}</option>
                     ))}
                   </select>
@@ -148,7 +157,7 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Harga (Angka)</label>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Harga (Angka Penuh)</label>
                   <input
                     required
                     type="number"
@@ -158,9 +167,8 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                     onChange={handlePriceValueChange}
                   />
                   <div className="flex justify-end items-center gap-1 mt-1">
-                    <span className="text-xs text-blue-600 font-medium">Preview:</span>
-                    {/* Render Preview Harga Pintar */}
-                    {renderPreviewPrice(formData.price)}
+                    <span className="text-xs text-blue-600 font-medium">Preview Tampilan:</span>
+                    {renderPreviewPrice(formData.price_value)}
                   </div>
                 </div>
 
@@ -170,7 +178,7 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                     <input
                       required
                       type="text"
-                      placeholder="217 hp"
+                      placeholder="217 HP"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                       value={formData.horsepower}
                       onChange={e => setFormData({...formData, horsepower: e.target.value})}
@@ -197,7 +205,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
                 <input
                   required
                   type="url"
-                  placeholder="https://..."
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                   value={formData.image_url}
                   onChange={e => setFormData({...formData, image_url: e.target.value})}
@@ -219,7 +226,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
               <textarea
                 required
                 rows="3"
-                placeholder="Fitur unggulan..."
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                 value={formData.description}
                 onChange={e => setFormData({...formData, description: e.target.value})}

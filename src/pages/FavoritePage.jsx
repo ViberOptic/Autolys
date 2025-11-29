@@ -68,7 +68,7 @@ export default function FavoritePage({ onCarClick, onNavigate }) {
             </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Koleksi Favorit</h1>
-              {/* UPDATE: Struktur Flexbox untuk spasi yang konsisten */}
+              {/* UPDATE: Gap 1.5 dan notranslate */}
               <div className="flex items-center gap-1.5 text-slate-500 text-sm mt-1">
                 <span className="notranslate font-bold text-slate-800">{totalCount}</span>
                 <span>Mobil impian tersimpan</span>

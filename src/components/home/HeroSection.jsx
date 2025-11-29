@@ -3,12 +3,10 @@ import { Search, Crown, ArrowRight, Loader2 } from 'lucide-react';
 import { useFeaturedCars } from '../../hooks/useCars';
 
 export default function HeroSection({ onNavigate }) {
-  // Mengambil 4 mobil featured dari database
   const { cars, loading } = useFeaturedCars(4);
 
   return (
     <section className="relative overflow-hidden bg-slate-50 pt-8 pb-16 lg:pt-20 lg:pb-28">
-      {/* Decorative Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">
         <div className="absolute top-10 left-0 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-10 right-0 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -17,7 +15,6 @@ export default function HeroSection({ onNavigate }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
           
-          {/* Left Column: Text Content */}
           <div className="text-center lg:text-left order-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium mb-4 border border-blue-200 animate-fade-in-up">
               <span className="relative flex h-2 w-2">
@@ -69,7 +66,6 @@ export default function HeroSection({ onNavigate }) {
             </div>
           </div>
 
-          {/* Right Column: Dynamic Image Grid */}
           <div className="relative order-2 w-full max-w-md mx-auto lg:max-w-none lg:pl-10">
             {loading ? (
               <div className="flex items-center justify-center h-64">
@@ -77,7 +73,6 @@ export default function HeroSection({ onNavigate }) {
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {/* Kolom Kiri Grid */}
                 <div className="space-y-3 sm:space-y-4 pt-8 sm:pt-12">
                   {cars[0] && (
                     <div className="bg-white p-1.5 sm:p-2 rounded-xl sm:rounded-2xl shadow-lg shadow-blue-500/10 rotate-[-3deg] hover:rotate-0 transition-transform duration-500 hover:scale-105 z-10 relative overflow-hidden group">
@@ -86,7 +81,8 @@ export default function HeroSection({ onNavigate }) {
                         alt={cars[0].name} 
                         className="rounded-lg sm:rounded-xl w-full h-28 sm:h-40 object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2">
+                      {/* UPDATE: Nama Mobil Hero diberi class 'notranslate' */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2 notranslate">
                         {cars[0].name}
                       </div>
                     </div>
@@ -98,14 +94,13 @@ export default function HeroSection({ onNavigate }) {
                         alt={cars[1].name} 
                         className="rounded-lg sm:rounded-xl w-full h-24 sm:h-32 object-cover"
                       />
-                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2">
+                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2 notranslate">
                         {cars[1].name}
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Kolom Kanan Grid */}
                 <div className="space-y-3 sm:space-y-4">
                   {cars[2] && (
                     <div className="bg-white p-1.5 sm:p-2 rounded-xl sm:rounded-2xl shadow-lg shadow-purple-500/10 rotate-3 hover:rotate-0 transition-transform duration-500 hover:scale-105 overflow-hidden group">
@@ -114,7 +109,7 @@ export default function HeroSection({ onNavigate }) {
                         alt={cars[2].name} 
                         className="rounded-lg sm:rounded-xl w-full h-24 sm:h-32 object-cover"
                       />
-                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2">
+                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2 notranslate">
                         {cars[2].name}
                       </div>
                     </div>
@@ -126,7 +121,7 @@ export default function HeroSection({ onNavigate }) {
                         alt={cars[3].name} 
                         className="rounded-lg sm:rounded-xl w-full h-28 sm:h-40 object-cover"
                       />
-                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2">
+                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold text-center p-2 notranslate">
                         {cars[3].name}
                       </div>
                     </div>

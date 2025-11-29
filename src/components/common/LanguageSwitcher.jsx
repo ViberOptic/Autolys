@@ -6,7 +6,6 @@ export default function LanguageSwitcher({ variant = 'default' }) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('id');
 
-  // PERBAIKAN: Menggunakan URL Image (CDN) karena Windows tidak support Emoji Bendera
   const languages = [
     { code: 'id', label: 'Indonesia', flag: 'https://flagcdn.com/w40/id.png' },
     { code: 'en', label: 'English', flag: 'https://flagcdn.com/w40/us.png' },
@@ -16,23 +15,33 @@ export default function LanguageSwitcher({ variant = 'default' }) {
   ];
 
   useEffect(() => {
-    const cookies = document.cookie.split(';');
-    const langCookie = cookies.find(row => row.trim().startsWith('googtrans='));
-    if (langCookie) {
-      const langCode = langCookie.split('=')[1].split('/').pop();
-      setCurrentLang(langCode);
+    // Helper untuk membaca cookie dengan aman
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    const googTrans = getCookie('googtrans');
+    if (googTrans) {
+      // Ambil kode bahasa terakhir (misal: /auto/en -> en)
+      const langCode = googTrans.split('/').pop();
+      if (langCode) {
+        setCurrentLang(langCode);
+      }
     }
   }, []);
 
   const changeLanguage = (langCode) => {
+    // Set cookie untuk Google Translate
     document.cookie = `googtrans=/auto/${langCode}; path=/; domain=${window.location.hostname}`;
     document.cookie = `googtrans=/auto/${langCode}; path=/;`;
+    
     setCurrentLang(langCode);
     setIsOpen(false);
-    window.location.reload();
+    window.location.reload(); 
   };
 
-  // Konfigurasi Style
   const styles = {
     default: {
       wrapper: "w-full md:w-auto",
@@ -47,7 +56,7 @@ export default function LanguageSwitcher({ variant = 'default' }) {
   };
 
   const activeStyle = styles[variant] || styles.default;
-  const currentLangData = languages.find(l => l.code === currentLang);
+  const currentLangLabel = languages.find(l => l.code === currentLang)?.label || 'Indonesia';
 
   return (
     <div className={`relative ${activeStyle.wrapper}`}>
@@ -56,10 +65,10 @@ export default function LanguageSwitcher({ variant = 'default' }) {
         className={`flex items-center gap-2 px-3 py-2 rounded-lg border-slate-200 hover:bg-slate-50 transition-colors font-medium text-sm ${activeStyle.button}`}
       >
         <div className="flex items-center gap-2">
-          {/* Icon Globe/Languages tetap ada sebagai indikator umum */}
           <Languages className="w-5 h-5" />
-          <span>
-            {currentLangData?.label || 'Bahasa'}
+          {/* Class notranslate agar nama bahasa tidak diterjemahkan ulang */}
+          <span className="notranslate">
+            {currentLangLabel}
           </span>
         </div>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -81,13 +90,12 @@ export default function LanguageSwitcher({ variant = 'default' }) {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  {/* PERBAIKAN: Render Image Bendera, bukan Emoji */}
                   <img 
                     src={lang.flag} 
                     alt={lang.label} 
                     className="w-5 h-3.5 object-cover rounded-[2px] shadow-sm" 
                   />
-                  {lang.label}
+                  <span className="notranslate">{lang.label}</span>
                 </div>
                 {currentLang === lang.code && <Check className="w-4 h-4" />}
               </button>

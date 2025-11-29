@@ -30,7 +30,6 @@ export default function CarDetailPage({ id, onBack }) {
     );
   }
 
-  // Regex: Group 1 (Rp/Prefix), Group 2 (Angka), Group 3 (Suffix/Unit)
   const priceParts = car.price ? car.price.match(/^(\D*)(\d[\d\.,]*)(\D*)$/) : null;
 
   return (
@@ -61,7 +60,8 @@ export default function CarDetailPage({ id, onBack }) {
             <span className="px-3 py-1 bg-blue-600 text-xs font-bold rounded-full uppercase tracking-wider mb-2 inline-block">
               {car.category}
             </span>
-            <h1 className="text-3xl md:text-4xl font-bold mb-1">{car.name}</h1>
+            {/* UPDATE: Nama Mobil Detail diberi class 'notranslate' */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-1 notranslate">{car.name}</h1>
             <p className="text-slate-200 text-lg">{car.brand}</p>
           </div>
         </div>
@@ -71,7 +71,6 @@ export default function CarDetailPage({ id, onBack }) {
         <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div>
             <p className="text-slate-500 text-sm mb-1">Harga OTR (Estimasi)</p>
-            {/* HARGA UTAMA: Rp & Angka (Notranslate), Suffix (Translate) */}
             <div className="flex items-baseline gap-1.5">
               {priceParts ? (
                 <>
@@ -110,6 +109,7 @@ export default function CarDetailPage({ id, onBack }) {
                   icon={<Zap className="w-5 h-5 text-yellow-500" />}
                   label="Tenaga"
                   value={car.horsepower}
+                  isMetric={true}
                 />
                 <SpecItem 
                   icon={<Gauge className="w-5 h-5 text-red-500" />}
@@ -120,6 +120,7 @@ export default function CarDetailPage({ id, onBack }) {
                   icon={<Calendar className="w-5 h-5 text-green-500" />}
                   label="Tahun Model"
                   value="2025"
+                  isMetric={true}
                 />
               </div>
             </section>
@@ -162,7 +163,7 @@ export default function CarDetailPage({ id, onBack }) {
   );
 }
 
-function SpecItem({ icon, label, value }) {
+function SpecItem({ icon, label, value, isMetric }) {
   const parts = value ? value.toString().match(/^(\D*)(\d+(?:[\.,]\d+)?)(\D*)$/) : null;
 
   return (
@@ -177,10 +178,10 @@ function SpecItem({ icon, label, value }) {
           <div className="flex items-baseline gap-1 font-semibold text-slate-900">
             {parts[1] && <span>{parts[1]}</span>}
             <span className="notranslate">{parts[2]}</span>
-            {parts[3] && <span>{parts[3].trim()}</span>}
+            {parts[3] && <span className={isMetric ? 'notranslate' : ''}>{parts[3].trim()}</span>}
           </div>
         ) : (
-          <p className="font-semibold text-slate-900 truncate">
+          <p className={`font-semibold text-slate-900 truncate ${isMetric ? 'notranslate' : ''}`}>
             {value}
           </p>
         )}

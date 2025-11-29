@@ -51,7 +51,7 @@ export default function EVPage({ onCarClick }) {
         ) : (
           <>
             <div className="flex justify-between items-center mb-4">
-              {/* UPDATE: Menggunakan Flexbox & Gap untuk spasi yang konsisten di semua bahasa */}
+              {/* UPDATE: Gap 1.5 dan notranslate pada angka */}
               <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600">
                 <span>Menampilkan</span>
                 <span className="notranslate font-bold text-slate-800">{pagination.total}</span>

@@ -71,21 +71,33 @@ export default function ManageCarsPage() {
     }
   };
 
-  // Helper render harga pintar (KONSISTEN)
-  const renderPrice = (priceStr) => {
-    if (!priceStr) return null;
-    const parts = priceStr.match(/^(\D*)(\d[\d\.,]*)(\D*)$/);
+  const renderSmartPrice = (priceStr) => {
+    if (!priceStr) return <span className="text-blue-700 font-bold text-sm notranslate">-</span>;
     
-    if (!parts) return <span className="text-blue-700 font-bold text-sm notranslate">{priceStr}</span>;
-    
+    const numericPrice = parseInt(priceStr.replace(/\D/g, ''));
+    let value = priceStr;
+    let unit = '';
+
+    if (!isNaN(numericPrice)) {
+      if (numericPrice >= 1000000000000) {
+        value = (numericPrice / 1000000000000).toFixed(1).replace(/\.0$/, '');
+        unit = 'Triliun';
+      } else if (numericPrice >= 1000000000) {
+        value = (numericPrice / 1000000000).toFixed(1).replace(/\.0$/, '');
+        unit = 'Miliar';
+      } else if (numericPrice >= 1000000) {
+        value = (numericPrice / 1000000).toFixed(0);
+        unit = 'Juta';
+      } else {
+        value = numericPrice.toLocaleString('id-ID');
+      }
+    }
+
     return (
       <div className="flex items-baseline gap-1 text-blue-700 font-bold text-sm">
-        {/* Rp - Notranslate */}
-        {parts[1] && <span className="notranslate">{parts[1]}</span>}
-        {/* Angka - Notranslate */}
-        <span className="notranslate">{parts[2]}</span>
-        {/* Suffix - Translate Allowed */}
-        {parts[3] && <span>{parts[3].trim()}</span>}
+        <span className="notranslate">Rp</span>
+        <span className="notranslate">{value}</span>
+        {unit && <span>{unit}</span>}
       </div>
     );
   };
@@ -168,10 +180,11 @@ export default function ManageCarsPage() {
                 </div>
 
                 <div className="p-4">
-                  <h3 className="font-bold text-slate-800 truncate">{car.name}</h3>
+                  {/* UPDATE: Nama Mobil diberi class 'notranslate' */}
+                  <h3 className="font-bold text-slate-800 truncate notranslate">{car.name}</h3>
                   <p className="text-xs text-slate-500 mb-2">{car.brand}</p>
-                  {/* Render Harga Pintar */}
-                  {renderPrice(car.price)}
+                  
+                  {renderSmartPrice(car.price)}
                 </div>
               </div>
             ))}

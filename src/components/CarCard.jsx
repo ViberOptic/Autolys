@@ -4,23 +4,34 @@ import FavoriteButton from './common/FavoriteButton';
 
 export default function CarCard({ car, onClick }) {
   
-  // Helper: Pisahkan Angka dan Satuan agar "Rp" & Angka tidak ditranslate, tapi "Jt/M" bisa ditranslate
+  // Helper: Format Harga Pintar
   const getPriceParts = (priceString) => {
     if (!priceString) return { value: '', unit: '' };
 
     const numericPrice = parseInt(priceString.replace(/\D/g, ''));
     
+    if (isNaN(numericPrice)) return { value: priceString, unit: '' };
+
+    if (numericPrice >= 1000000000000) {
+      return { 
+        value: (numericPrice / 1000000000000).toFixed(1).replace(/\.0$/, ''), 
+        unit: 'Triliun' 
+      };
+    }
     if (numericPrice >= 1000000000) {
-      const inBillion = (numericPrice / 1000000000).toFixed(1).replace(/\.0$/, '');
-      return { value: inBillion, unit: 'M' };
-    } 
-    
+      return { 
+        value: (numericPrice / 1000000000).toFixed(1).replace(/\.0$/, ''), 
+        unit: 'Miliar' 
+      };
+    }
     if (numericPrice >= 1000000) {
-      const inMillion = (numericPrice / 1000000).toFixed(0);
-      return { value: inMillion, unit: 'Jt' };
+      return { 
+        value: (numericPrice / 1000000).toFixed(0), 
+        unit: 'Juta' 
+      };
     }
     
-    return { value: priceString, unit: '' };
+    return { value: numericPrice.toLocaleString('id-ID'), unit: '' };
   };
 
   const { value, unit } = getPriceParts(car.price);
@@ -47,7 +58,8 @@ export default function CarCard({ car, onClick }) {
       </div>
       
       <div className="p-4">
-        <h3 className="font-bold text-lg text-slate-800 mb-1 truncate group-hover:text-blue-600 transition-colors">
+        {/* UPDATE: Nama Mobil diberi class 'notranslate' */}
+        <h3 className="font-bold text-lg text-slate-800 mb-1 truncate group-hover:text-blue-600 transition-colors notranslate">
           {car.name}
         </h3>
         <p className="text-slate-500 text-sm mb-3">{car.brand}</p>
@@ -62,11 +74,10 @@ export default function CarCard({ car, onClick }) {
             <span className="notranslate">{car.horsepower}</span>
           </div>
           
-          {/* HARGA KONSISTEN: Rp & Angka (No Translate), Unit (Translate) */}
           <div className="flex items-baseline gap-1 text-blue-700 font-bold text-sm whitespace-nowrap">
             <span className="notranslate">Rp</span>
             <span className="notranslate">{value}</span>
-            <span>{unit}</span>
+            {unit && <span>{unit}</span>}
           </div>
         </div>
       </div>
@@ -74,7 +85,6 @@ export default function CarCard({ car, onClick }) {
   );
 }
 
-// Wrapper sementara agar tidak error saat copy-paste jika nama props berbeda di file asli
 function FavoriteButtonWV({ recipeId, size }) {
     return <FavoriteButton recipeId={recipeId} size={size} />
 }

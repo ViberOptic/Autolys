@@ -6,6 +6,14 @@ export default function CarFilter({ filters, setFilters, onReset }) {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
+  // Daftar merek lengkap sesuai src/data/cars.js
+  const brands = [
+    "BMW", "BYD", "Chery", "Citroen", "Ferrari", 
+    "Honda", "Hyundai", "Kia", "Lexus", "Mazda", 
+    "MG", "Mini", "Mitsubishi", "Neta", "Nissan", 
+    "Porsche", "Suzuki", "Tesla", "Toyota", "Volvo", "Wuling"
+  ];
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -22,7 +30,7 @@ export default function CarFilter({ filters, setFilters, onReset }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Filter 1: Merek */}
+        {/* Filter 1: Merek (Diupdate Lengkap) */}
         <div>
           <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Merek</label>
           <select
@@ -31,23 +39,17 @@ export default function CarFilter({ filters, setFilters, onReset }) {
             className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
           >
             <option value="all">Semua Merek</option>
-            <option value="Hyundai">Hyundai</option>
-            <option value="Wuling">Wuling</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Lexus">Lexus</option>
-            <option value="BMW">BMW</option>
-            <option value="Tesla">Tesla</option>
-            <option value="MG">MG</option>
-            <option value="Kia">Kia</option>
-            <option value="BYD">BYD</option>
+            {brands.map((brand) => (
+              <option key={brand} value={brand}>{brand}</option>
+            ))}
           </select>
         </div>
 
-        {/* Filter 2: Penggerak (Ganti dari Body Type) */}
+        {/* Filter 2: Penggerak */}
         <div>
           <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Tipe Penggerak</label>
           <select
-            value={filters.category} // Kita pakai field category di data
+            value={filters.category}
             onChange={(e) => handleChange('category', e.target.value)}
             className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
           >

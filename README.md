@@ -26,7 +26,7 @@ Project ini dibangun menggunakan teknologi web modern:
 * **Frontend:** [React 19](https://react.dev/)
 * **Build Tool:** [Vite](https://vitejs.dev/)
 * **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-* **Database:** [Supabase](https://supabase.com/) (untuk fitur Favorit Realtime)
+* **Database:** [Supabase](https://supabase.com/)
 * **Icons:** [Lucide React](https://lucide.dev/)
 * **PWA:** [Vite Plugin PWA](https://vite-pwa-org.netlify.app/)
 
@@ -132,21 +132,21 @@ VALUES
 
 (3, 'Toyota Innova Zenix Hybrid', 'Toyota', 'Hybrid', 'Rp 611.000.000', 611000000, '2.0L Hybrid System', '186 HP', 'https://images.prod.seva.id/Toyota/All%20New%20Kijang%20Innova%20Zenix/main_color/Zenix_main_black_transparent.png', 'MPV keluarga legendaris kini hadir dengan teknologi hybrid yang jauh lebih efisien.', true),
 
-(4, 'Tesla Model 3 Highland', 'Tesla', 'Electric', 'Rp 1.500.000.000', 1500000000, 'Electric Motor', '283 HP', 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800', 'Sedan listrik paling populer dengan facelift terbaru, interior minimalis, dan jarak tempuh impresif.', true),
+(4, 'Tesla Model 3 Highland', 'Tesla', 'Electric', 'Rp 1.500.000.000', 1500000000, 'Electric Motor', '283 HP', 'https://tsportline.com/cdn/shop/articles/updated-tesla-model-3-front-three-quarters-1_1920x.webp?v=1693585311', 'Sedan listrik paling populer dengan facelift terbaru, interior minimalis, dan jarak tempuh impresif.', true),
 
-(5, 'Lexus RX 350h Luxury', 'Lexus', 'Hybrid', 'Rp 1.700.000.000', 1700000000, '2.5L Hybrid', '246 HP', 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800', 'SUV mewah yang menawarkan kenyamanan kabin kelas satu dan keheningan mesin hybrid.', false),
+(5, 'Lexus RX 350h Luxury', 'Lexus', 'Hybrid', 'Rp 1.700.000.000', 1700000000, '2.5L Hybrid', '246 HP', 'https://www.lexus.co.id/content/dam/lexus-v3-blueprint/models/suv/rx/rx-350h/my23/gallery/exterior/cgi/gallery-ext-04-d.jpg', 'SUV mewah yang menawarkan kenyamanan kabin kelas satu dan keheningan mesin hybrid.', false),
 
 (6, 'Hyundai Ioniq 6', 'Hyundai', 'Electric', 'Rp 1.220.000.000', 1220000000, 'Dual Motor AWD', '320 HP', 'https://www.hyundai.com/content/dam/hyundai/id/id/images/local/ioniq6/KV_Ionic-6_D_Home-Banner_1860x720.png', 'Electrified Streamliner dengan aerodinamika luar biasa untuk efisiensi maksimal.', false),
 
-(7, 'BMW iX xDrive40', 'BMW', 'Electric', 'Rp 2.488.000.000', 2488000000, 'Dual Electric Motor', '326 HP', 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800', 'SUV listrik flagship BMW dengan desain interior lounge yang sangat mewah dan material daur ulang.', true),
+(7, 'BMW iX xDrive40', 'BMW', 'Electric', 'Rp 2.488.000.000', 2488000000, 'Dual Electric Motor', '326 HP', 'https://ev-database.org/img/auto/BMW_iX_2022/BMW_iX_2022-01@2x.jpg', 'SUV listrik flagship BMW dengan desain interior lounge yang sangat mewah dan material daur ulang.', true),
 
 (8, 'MG 4 EV', 'MG', 'Electric', 'Rp 429.000.000', 429000000, 'RWD Electric Motor', '170 HP', 'https://www.mg-mobil.com/file/20241102224312_m.jpeg', 'Hatchback listrik dengan handling fun-to-drive berkat penggerak roda belakang (RWD).', false),
 
-(9, 'Toyota bZ4X', 'Toyota', 'Electric', 'Rp 1.190.000.000', 1190000000, 'Electric Motor', '204 HP', 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800', 'Langkah serius Toyota di segmen BEV dengan platform e-TNGA yang kokoh.', false),
+(9, 'Toyota bZ4X', 'Toyota', 'Electric', 'Rp 1.190.000.000', 1190000000, 'Electric Motor', '204 HP', 'https://preview.thenewsmarket.com/Previews/NCAP/StillAssets/1920x1080/677808_v2.jpg', 'Langkah serius Toyota di segmen BEV dengan platform e-TNGA yang kokoh.', false),
 
 (10, 'Nissan Kicks e-Power', 'Nissan', 'Hybrid', 'Rp 519.000.000', 519000000, 'e-Power System', '136 HP', 'https://storage.googleapis.com/prod-nissan-indonesia/3840_X_1975_Kicks_2022_Top_Banner_copy_2bdf7622f8/3840_X_1975_Kicks_2022_Top_Banner_copy_2bdf7622f8.jpg', 'Mobil listrik tanpa perlu charging. Mesin bensin hanya berfungsi sebagai generator baterai.', false),
 
-(11, 'Honda CR-V e:HEV', 'Honda', 'Hybrid', 'Rp 814.000.000', 814000000, '2.0L Hybrid', '207 HP', 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800', 'SUV premium dengan sistem hybrid canggih yang bertenaga namun tetap irit.', false),
+(11, 'Honda CR-V e:HEV', 'Honda', 'Hybrid', 'Rp 814.000.000', 814000000, '2.0L Hybrid', '207 HP', 'https://res.cloudinary.com/mufautoshow/image/upload/f_auto,f_auto/w_1200/v1694656071/moas/news/1694656048_all-new-crv-20l-rs-ehev-suv-premium-bermesin-hybrid.png', 'SUV premium dengan sistem hybrid canggih yang bertenaga namun tetap irit.', false),
 
 (12, 'Chery Omoda E5', 'Chery', 'Electric', 'Rp 498.000.000', 498000000, 'Electric Motor', '204 HP', 'https://cheryidn.sgp1.cdn.digitaloceanspaces.com/prod/product-models/omoda/product-types/omoda-e5/E5-new-banner-desktop-latest.png', 'Desain futuristik dengan performa akselerasi instan dan fitur ADAS lengkap.', false),
 
@@ -158,23 +158,23 @@ VALUES
 
 (16, 'Volvo XC90 Recharge', 'Volvo', 'Hybrid', 'Rp 1.800.000.000', 1800000000, 'T8 AWD Plug-in Hybrid', '462 HP', 'https://smartcdn.gprod.postmedia.digital/driving/wp-content/uploads/2024/01/2024-Volvo-XC90-Recharge-Review-Exterior-Front3Q1-scaled.jpg', 'SUV Swedia teraman dengan tenaga buas dari mesin Plug-in Hybrid.', false),
 
-(17, 'BYD Seal Performance', 'BYD', 'Electric', 'Rp 719.000.000', 719000000, 'Dual Motor AWD', '523 HP', 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800', 'Sedan sport listrik dengan akselerasi 0-100 km/jam dalam 3.8 detik.', false),
+(17, 'BYD Seal Performance', 'BYD', 'Electric', 'Rp 719.000.000', 719000000, 'Dual Motor AWD', '523 HP', 'https://www.byd.com/content/dam/byd-site/en-ae/product/seal/pc/section01.jpg', 'Sedan sport listrik dengan akselerasi 0-100 km/jam dalam 3.8 detik.', false),
 
 (18, 'Suzuki Grand Vitara', 'Suzuki', 'Hybrid', 'Rp 390.000.000', 390000000, 'Smart Hybrid', '102 HP', 'https://suzukicdn.com/uploads/news/grand-vitara-untuk-ciptakan-momen-libur-lebaran-yang-stylish.webp', 'SUV Compact dengan teknologi Mild Hybrid yang efisien untuk harian.', false),
 
 (19, 'Toyota Alphard HEV', 'Toyota', 'Hybrid', 'Rp 1.680.000.000', 1680000000, '2.5L Hybrid', '250 HP', 'https://astraotoshop.com/asset/article-aop/alphard%202025_20250520.webp', 'Simbol kemewahan MPV di Indonesia, kini lebih senyap dan irit.', false),
 
-(20, 'Mini Cooper SE', 'Mini', 'Electric', 'Rp 1.050.000.000', 1050000000, 'Electric Motor', '184 HP', 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800', 'Gokart feeling khas Mini dalam paket elektrik yang ikonik dan stylish.', false),
+(20, 'Mini Cooper SE', 'Mini', 'Electric', 'Rp 1.050.000.000', 1050000000, 'Electric Motor', '184 HP', 'https://ev-database.org/img/auto/Mini_Cooper_Electric_2024/Mini_Cooper_Electric_2024-01@2x.jpg', 'Gokart feeling khas Mini dalam paket elektrik yang ikonik dan stylish.', false),
 
 (21, 'Neta V-II', 'Neta', 'Electric', 'Rp 299.000.000', 299000000, 'Electric Motor', '94 HP', 'https://arista-group.co.id/wp-content/uploads/2024/06/Neta-V-II-Milk-Tea.png', 'Crossover listrik entry-level dengan fitur lengkap dan harga terjangkau.', false),
 
-(22, 'BMW i7 xDrive60', 'BMW', 'Electric', 'Rp 3.250.000.000', 3250000000, 'Dual Electric Motor', '544 HP', 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800', 'Sedan ultra-luxury elektrik dengan layar bioskop theater screen di kabin belakang.', false),
+(22, 'BMW i7 xDrive60', 'BMW', 'Electric', 'Rp 3.250.000.000', 3250000000, 'Dual Electric Motor', '544 HP', 'https://ev-database.org/img/auto/BMW_i7_2022/BMW_i7_2022-01@2x.jpg', 'Sedan ultra-luxury elektrik dengan layar bioskop theater screen di kabin belakang.', false),
 
 (23, 'Mazda CX-60', 'Mazda', 'Hybrid', 'Rp 1.188.000.000', 1188000000, '3.3L Mild Hybrid', '280 HP', 'https://www.topgear.com/sites/default/files/2025/03/004-2025-Mazda-CX-60-e-Skyactiv-D-MHEV-Homura-Plus-action_highres.jpg', 'SUV premium RWD dengan mesin 6 silinder inline yang halus dan bertenaga.', false),
 
 (24, 'Citroen e-C3', 'Citroen', 'Electric', 'Rp 377.000.000', 377000000, 'Electric Motor', '57 HP', 'https://www.topgear.com/sites/default/files/2025/04/1%20Citroen%20eC3%20review%202025%20UK_1.jpg', 'City car listrik bergaya Eropa yang mengutamakan kenyamanan suspensi.', false),
 
-(25, 'Ferrari SF90 Stradale', 'Ferrari', 'Hybrid', 'Rp 18.000.000.000', 18000000000, 'V8 PHEV', '986 HP', 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&w=800', 'Hypercar plug-in hybrid Ferrari paling bertenaga yang legal di jalan raya.', false);
+(25, 'Ferrari SF90 Stradale', 'Ferrari', 'Hybrid', 'Rp 18.000.000.000', 18000000000, 'V8 PHEV', '986 HP', 'https://cdn.motor1.com/images/mgl/qkk7zv/s3/novitec-ferrari-sf90-stradale-2022.jpg', 'Hypercar plug-in hybrid Ferrari paling bertenaga yang legal di jalan raya.', false);
 ```
 
 4. Pergi ke Project Settings > API. Salin Project URL dan anon public key.

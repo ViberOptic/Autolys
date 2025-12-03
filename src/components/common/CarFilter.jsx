@@ -64,9 +64,9 @@ export default function CarFilter({ filters, setFilters, onReset }) {
             className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
           >
             <option value="all">Semua Harga</option>
-            <option value="under_500">Di bawah 500 Jt</option>
-            <option value="500_1000">500 Jt - 1 Milyar</option>
-            <option value="above_1000">Di atas 1 Milyar</option>
+            <option value="under_500">Di bawah 500 Juta</option>
+            <option value="500_1000">500 Juta - 1 Miliar</option>
+            <option value="above_1000">Di atas 1 Miliar</option>
           </select>
         </div>
       </div>

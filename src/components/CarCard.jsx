@@ -1,39 +1,10 @@
 // src/components/CarCard.jsx
 import { Zap, Fuel } from 'lucide-react';
 import FavoriteButton from './common/FavoriteButton';
+import { formatCurrency } from '../utils/helpers';
 
 export default function CarCard({ car, onClick }) {
-  
-  const getPriceParts = (priceString) => {
-    if (!priceString) return { value: '', unit: '' };
-
-    const numericPrice = parseInt(priceString.replace(/\D/g, ''));
-    
-    if (isNaN(numericPrice)) return { value: priceString, unit: '' };
-
-    if (numericPrice >= 1000000000000) {
-      return { 
-        value: (numericPrice / 1000000000000).toFixed(1).replace(/\.0$/, ''), 
-        unit: 'Triliun' 
-      };
-    }
-    if (numericPrice >= 1000000000) {
-      return { 
-        value: (numericPrice / 1000000000).toFixed(1).replace(/\.0$/, ''), 
-        unit: 'Miliar' 
-      };
-    }
-    if (numericPrice >= 1000000) {
-      return { 
-        value: (numericPrice / 1000000).toFixed(0), 
-        unit: 'Juta' 
-      };
-    }
-    
-    return { value: numericPrice.toLocaleString('id-ID'), unit: '' };
-  };
-
-  const { value, unit } = getPriceParts(car.price);
+  const { value, unit } = formatCurrency(car.price);
 
   return (
     <div 

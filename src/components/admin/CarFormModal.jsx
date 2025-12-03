@@ -1,6 +1,7 @@
 // src/components/admin/CarFormModal.jsx
 import { useState, useEffect } from 'react';
 import { X, Save, Loader2, UploadCloud } from 'lucide-react';
+import { formatCurrency } from '../../utils/helpers';
 
 export default function CarFormModal({ isOpen, onClose, onSubmit, initialData }) {
   const [loading, setLoading] = useState(false);
@@ -57,20 +58,7 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
   const renderPreviewPrice = (numericVal) => {
     if (!numericVal) return <span className="text-xs text-blue-600 font-medium">-</span>;
     
-    const num = parseInt(numericVal);
-    let value = num.toLocaleString('id-ID');
-    let unit = '';
-
-    if (num >= 1000000000000) {
-      value = (num / 1000000000000).toFixed(1).replace(/\.0$/, '');
-      unit = 'Triliun';
-    } else if (num >= 1000000000) {
-      value = (num / 1000000000).toFixed(1).replace(/\.0$/, '');
-      unit = 'Miliar';
-    } else if (num >= 1000000) {
-      value = (num / 1000000).toFixed(0);
-      unit = 'Juta';
-    }
+    const { value, unit } = formatCurrency(numericVal);
 
     return (
       <div className="flex items-baseline gap-1 text-xs text-blue-600 font-bold">
@@ -104,7 +92,6 @@ export default function CarFormModal({ isOpen, onClose, onSubmit, initialData })
         <div className="p-6 overflow-y-auto">
           <form id="carForm" onSubmit={handleSubmit} className="space-y-6">
             
-            {/* Form Input Fields (Sama seperti sebelumnya) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>

@@ -1,10 +1,4 @@
 // src/utils/helpers.js
-
-/**
- * Format date to readable string
- * @param {string} dateString - ISO date string
- * @returns {string} - Formatted date
- */
 export function formatDate(dateString) {
   if (!dateString) return '';
   
@@ -18,11 +12,6 @@ export function formatDate(dateString) {
   return date.toLocaleDateString('id-ID', options);
 }
 
-/**
- * Format date to relative time (e.g., "2 hours ago")
- * @param {string} dateString - ISO date string
- * @returns {string} - Relative time string
- */
 export function formatRelativeTime(dateString) {
   if (!dateString) return '';
   
@@ -36,7 +25,6 @@ export function formatRelativeTime(dateString) {
   
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   if (diffInMinutes < 60) {
-    // Pastikan spasi eksplisit antara angka dan teks
     return `${diffInMinutes} menit yang lalu`;
   }
   
@@ -64,7 +52,6 @@ export function formatRelativeTime(dateString) {
   return `${diffInYears} tahun yang lalu`;
 }
 
-// ... (sisa fungsi helpers lainnya tetap sama)
 export function getDifficultyColor(difficulty) {
   const colors = {
     mudah: 'bg-green-100 text-green-800',
@@ -112,4 +99,35 @@ export function debounce(func, wait = 300) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
+}
+
+export function formatCurrency(priceInput) {
+  if (!priceInput) return { value: '', unit: '' };
+
+  const numericPrice = typeof priceInput === 'string' 
+    ? parseInt(priceInput.replace(/\D/g, '')) 
+    : priceInput;
+  
+  if (isNaN(numericPrice)) return { value: priceInput.toString(), unit: '' };
+
+  if (numericPrice >= 1000000000000) {
+    return { 
+      value: (numericPrice / 1000000000000).toFixed(1).replace(/\.0$/, ''), 
+      unit: 'Triliun'
+    };
+  }
+  if (numericPrice >= 1000000000) {
+    return { 
+      value: (numericPrice / 1000000000).toFixed(1).replace(/\.0$/, ''), 
+      unit: 'Miliar'
+    };
+  }
+  if (numericPrice >= 1000000) {
+    return { 
+      value: (numericPrice / 1000000).toFixed(0), 
+      unit: 'Juta'
+    };
+  }
+  
+  return { value: numericPrice.toLocaleString('id-ID'), unit: '' };
 }

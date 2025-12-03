@@ -4,11 +4,22 @@ import { supabase } from '../config/supabase';
 export const carService = {
   async createCar(carData) {
     try {
+      if (!carData.name || !carData.price_value) {
+        throw new Error("Nama dan harga wajib diisi.");
+      }
+
       const payload = {
-        ...carData,
-        price_value: parseInt(carData.price_value),
-        created_at: new Date().toISOString(),
-        is_featured: false
+        name: carData.name,
+        brand: carData.brand,
+        category: carData.category,
+        price: carData.price,
+        price_value: parseInt(carData.price_value.toString().replace(/\D/g, '')),
+        horsepower: carData.horsepower,
+        engine: carData.engine,
+        image_url: carData.image_url,
+        description: carData.description,
+        is_featured: false,
+        created_at: new Date().toISOString()
       };
 
       const { data, error } = await supabase
@@ -19,17 +30,27 @@ export const carService = {
 
       if (error) throw error;
       return { success: true, data };
+
     } catch (error) {
-      console.error('Error creating car:', error);
+      console.error('Error creating car:', error.message);
       return { success: false, message: error.message };
     }
   },
 
   async updateCar(id, carData) {
     try {
+      if (!id) throw new Error("ID mobil tidak ditemukan.");
+
       const payload = {
-        ...carData,
-        price_value: parseInt(carData.price_value),
+        name: carData.name,
+        brand: carData.brand,
+        category: carData.category,
+        price: carData.price,
+        price_value: parseInt(carData.price_value.toString().replace(/\D/g, '')),
+        horsepower: carData.horsepower,
+        engine: carData.engine,
+        image_url: carData.image_url,
+        description: carData.description
       };
 
       const { data, error } = await supabase
@@ -41,14 +62,17 @@ export const carService = {
 
       if (error) throw error;
       return { success: true, data };
+
     } catch (error) {
-      console.error('Error updating car:', error);
+      console.error('Error updating car:', error.message);
       return { success: false, message: error.message };
     }
   },
 
   async deleteCar(id) {
     try {
+      if (!id) throw new Error("ID tidak valid");
+
       const { error } = await supabase
         .from('cars')
         .delete()
@@ -56,8 +80,9 @@ export const carService = {
 
       if (error) throw error;
       return { success: true };
+
     } catch (error) {
-      console.error('Error deleting car:', error);
+      console.error('Error deleting car:', error.message);
       return { success: false, message: error.message };
     }
   }

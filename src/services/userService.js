@@ -1,69 +1,78 @@
 // src/services/userService.js
+import { supabase } from '../config/supabase';
 
-const USER_PROFILE_KEY = 'user_profile';
-const USER_IDENTIFIER_KEY = 'user_identifier';
+const USER_PROFILE_PREFIX = 'user_profile_';
 
-export const getUserIdentifier = () => {
-  const STATIC_ID = 'user_1764176162219_2voqbw54q'; 
-  if (localStorage.getItem(USER_IDENTIFIER_KEY) !== STATIC_ID) {
-    localStorage.setItem(USER_IDENTIFIER_KEY, STATIC_ID);
-  }
-  return STATIC_ID;
+const getCurrentUserId = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.user?.id || null;
 };
 
-export const getUserProfile = () => {
+export const getUserProfile = async () => {
   try {
-    const profile = localStorage.getItem(USER_PROFILE_KEY);
-    if (profile) return JSON.parse(profile);
-    return { username: 'Pengguna', avatar: null, bio: '', userId: getUserIdentifier() };
+    const userId = await getCurrentUserId();
+    if (!userId) return null;
+
+    const profile = localStorage.getItem(`${USER_PROFILE_PREFIX}${userId}`);
+    
+    if (profile) {
+      return JSON.parse(profile);
+    }
+
+    return { 
+      username: 'Pengguna', 
+      avatar: null, 
+      bio: '', 
+      userId: userId 
+    };
   } catch (error) {
-    return { username: 'Pengguna', avatar: null, bio: '', userId: getUserIdentifier() };
+    console.error("Error getting profile:", error);
+    return null;
   }
 };
 
-export const saveUserProfile = (profile) => {
+export const saveUserProfile = async (profile) => {
   try {
-    const userId = getUserIdentifier();
-    const profileData = { ...profile, userId, updatedAt: new Date().toISOString() };
-    localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profileData));
+    const userId = await getCurrentUserId();
+    if (!userId) throw new Error("User not authenticated");
+
+    const profileData = { 
+      ...profile, 
+      userId, 
+      updatedAt: new Date().toISOString() 
+    };
+
+    localStorage.setItem(`${USER_PROFILE_PREFIX}${userId}`, JSON.stringify(profileData));
+    
     return { success: true, data: profileData };
   } catch (error) {
+    console.error("Error saving profile:", error);
     return { success: false, message: error.message };
   }
 };
 
-export const updateAvatar = (avatarBase64) => {
-  try {
-    const profile = getUserProfile();
-    profile.avatar = avatarBase64;
-    return saveUserProfile(profile);
-  } catch (error) {
-    return { success: false, message: error.message };
-  }
+export const updateAvatar = async (avatarBase64) => {
+  const currentProfile = await getUserProfile();
+  if (!currentProfile) return { success: false, message: "No active session" };
+  
+  return saveUserProfile({ ...currentProfile, avatar: avatarBase64 });
 };
 
-export const updateUsername = (username) => {
-  try {
-    const profile = getUserProfile();
-    profile.username = username.trim() || 'Pengguna';
-    return saveUserProfile(profile);
-  } catch (error) {
-    return { success: false, message: error.message };
-  }
+export const updateUsername = async (username) => {
+  const currentProfile = await getUserProfile();
+  if (!currentProfile) return { success: false, message: "No active session" };
+
+  return saveUserProfile({ ...currentProfile, username: username?.trim() || 'Pengguna' });
 };
 
-export const updateBio = (bio) => {
-  try {
-    const profile = getUserProfile();
-    profile.bio = bio.trim();
-    return saveUserProfile(profile);
-  } catch (error) {
-    return { success: false, message: error.message };
-  }
+export const updateBio = async (bio) => {
+  const currentProfile = await getUserProfile();
+  if (!currentProfile) return { success: false, message: "No active session" };
+
+  return saveUserProfile({ ...currentProfile, bio: bio?.trim() });
 };
 
 export default {
-  getUserIdentifier,
   getUserProfile,
   saveUserProfile,
   updateAvatar,

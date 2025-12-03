@@ -1,43 +1,45 @@
+// src/services/favoriteService.js
 import { supabase } from '../config/supabase';
 
-class FavoriteService {
-  async _getCurrentUser() {
-    const { data: { user } } = await supabase.auth.getUser();
-    return user;
-  }
-
+const favoriteService = {
   async getFavorites() {
     try {
-      const user = await this._getCurrentUser();
+      const { data: { session } } = await supabase.auth.getSession();
       
-      if (!user) return { success: true, data: [] };
+      if (!session?.user) {
+        return { success: true, data: [] };
+      }
 
       const { data, error } = await supabase
         .from('favorites')
         .select('car_id')
-        .eq('user_identifier', user.id);
+        .eq('user_identifier', session.user.id);
       
       if (error) throw error;
+      
       return { success: true, data: data.map(f => f.car_id) };
     } catch (error) {
       console.error("Error fetching favorites:", error.message);
       return { success: false, message: error.message };
     }
-  }
+  },
 
-  async toggleFavorite(data) {
-    const { car_id } = data;
-    if (!car_id) return { success: false, message: "Invalid data" };
+  async toggleFavorite(carId) {
+    if (!carId) return { success: false, message: "Invalid Car ID" };
 
     try {
-      const user = await this._getCurrentUser();
-      if (!user) return { success: false, message: "Silakan login untuk menyimpan favorit." };
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        return { success: false, message: "Silakan login untuk menyimpan favorit." };
+      }
+
+      const userId = session.user.id;
 
       const { data: existing, error: fetchError } = await supabase
         .from('favorites')
         .select('id')
-        .eq('user_identifier', user.id)
-        .eq('car_id', car_id)
+        .eq('user_identifier', userId)
+        .eq('car_id', carId)
         .maybeSingle();
 
       if (fetchError) throw fetchError;
@@ -53,10 +55,7 @@ class FavoriteService {
       } else {
         const { error: insertError } = await supabase
           .from('favorites')
-          .insert([{ 
-            user_identifier: user.id,
-            car_id: car_id 
-          }]);
+          .insert([{ user_identifier: userId, car_id: carId }]);
           
         if (insertError) throw insertError;
         return { success: true, action: 'added' };
@@ -66,6 +65,6 @@ class FavoriteService {
       return { success: false, message: error.message };
     }
   }
-}
+};
 
-export default new FavoriteService();
+export default favoriteService;

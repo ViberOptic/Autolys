@@ -162,7 +162,7 @@ VALUES
 
 (18, 'Suzuki Grand Vitara', 'Suzuki', 'Hybrid', 'Rp 390.000.000', 390000000, 'Smart Hybrid', '102 HP', 'https://suzukicdn.com/uploads/news/grand-vitara-untuk-ciptakan-momen-libur-lebaran-yang-stylish.webp', 'SUV Compact dengan teknologi Mild Hybrid yang efisien untuk harian.', false),
 
-(19, 'Toyota Alphard HEV', 'Toyota', 'Hybrid', 'Rp 1.680.000.000', 1680000000, '2.5L Hybrid', '250 HP', 'https://astraotoshop.com/asset/article-aop/alphard%202025_20250520.webp', 'Simbol kemewahan MPV di Indonesia, kini lebih senyap dan irit.', false),
+(19, 'Toyota Alphard HEV', 'Toyota', 'Hybrid', 'Rp 1.680.000.000', 1680000000, '2.5L Hybrid', '250 HP', 'https://d1g6w7sntckt92.cloudfront.net/public/images/feature_image/eMMogObkYYGS9Soiujmd7mzo6UZHSptsFmQzlDhA.jpg', 'Simbol kemewahan MPV di Indonesia, kini lebih senyap dan irit.', false),
 
 (20, 'Mini Cooper SE', 'Mini', 'Electric', 'Rp 1.050.000.000', 1050000000, 'Electric Motor', '184 HP', 'https://ev-database.org/img/auto/Mini_Cooper_Electric_2024/Mini_Cooper_Electric_2024-01@2x.jpg', 'Gokart feeling khas Mini dalam paket elektrik yang ikonik dan stylish.', false),
 

@@ -1,4 +1,3 @@
-// src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
@@ -16,10 +15,13 @@ export default function RegisterPage({ onNavigate }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     const { error } = await signUp({
       email: formData.email,
       password: formData.password,
+      options: {
+        emailRedirectTo: window.location.origin 
+      }
     });
 
     if (error) {
@@ -45,7 +47,7 @@ export default function RegisterPage({ onNavigate }) {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Cek Email Anda</h2>
           <p className="text-slate-600 mb-8 leading-relaxed">
             Link konfirmasi telah dikirim ke <strong className="text-slate-900">{formData.email}</strong>.<br/>
-            Silakan verifikasi email Anda untuk melanjutkan.
+            Silakan verifikasi email Anda, lalu kembali ke sini untuk Login.
           </p>
           <button 
             onClick={() => onNavigate('login')} 

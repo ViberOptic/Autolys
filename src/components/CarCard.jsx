@@ -46,9 +46,11 @@ export default function CarCard({ car, onClick }) {
           alt={car.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
+        
         <div className="absolute top-3 right-3 z-10">
-          <FavoriteButtonWV recipeId={car.id} size="sm" /> 
+          <FavoriteButton carId={car.id} size="sm" /> 
         </div>
+
         <div className="absolute bottom-3 left-3">
           <span className="px-3 py-1 bg-white/90 backdrop-blur text-slate-800 text-xs font-bold rounded-full shadow-sm">
             {car.category}
@@ -81,8 +83,4 @@ export default function CarCard({ car, onClick }) {
       </div>
     </div>
   );
-}
-
-function FavoriteButtonWV({ recipeId, size }) {
-    return <FavoriteButton recipeId={recipeId} size={size} />
 }

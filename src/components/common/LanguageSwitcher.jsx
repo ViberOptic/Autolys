@@ -15,32 +15,68 @@ export default function LanguageSwitcher({ variant = 'default' }) {
   ];
 
   useEffect(() => {
-    const getCookie = (name) => {
-      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-      return match ? match[2] : null;
-    };
+    if (!document.getElementById('google_translate_element')) {
+      const div = document.createElement('div');
+      div.id = 'google_translate_element';
+      div.style.display = 'none';
+      document.body.appendChild(div);
+    }
 
+    if (!document.getElementById('google-translate-styles')) {
+      const style = document.createElement('style');
+      style.id = 'google-translate-styles';
+      style.innerHTML = `
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        .goog-te-gadget-icon { display: none !important; width: 0 !important; height: 0 !important; }
+        #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip, .goog-te-hover-frame { display: none !important; visibility: hidden !important; }
+        .goog-text-highlight { background: transparent !important; box-shadow: none !important; }
+        font { background-color: transparent !important; box-shadow: none !important; }
+        body { top: 0 !important; position: static !important; }
+      `;
+      document.head.appendChild(style);
+    }
+
+    if (!window.googleTranslateElementInit) {
+      window.googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'id',
+          includedLanguages: 'id,en,ja,ko,zh-CN',
+          autoDisplay: false
+        }, 'google_translate_element');
+      };
+    }
+
+    if (!document.getElementById('google-translate-script')) {
+      const script = document.createElement('script');
+      script.id = 'google-translate-script';
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    const getCookie = (name) => {
+      const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      return v ? v[2] : null;
+    };
     const googTrans = getCookie('googtrans');
     if (googTrans) {
-      const langCode = googTrans.split('/').pop();      
-      const matchedLang = languages.find(
-        (l) => l.code.toLowerCase() === langCode?.toLowerCase()
-      );
-
-      if (matchedLang) {
-        setCurrentLang(matchedLang.code);
-      }
+      const lang = googTrans.split('/').pop();
+      if (lang) setCurrentLang(lang);
     }
   }, []);
 
   const changeLanguage = (langCode) => {
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
-    const newCookie = `/auto/${langCode}`;
-    document.cookie = `googtrans=${newCookie}; path=/;`;
+    const domain = window.location.hostname;
+    document.cookie = `googtrans=;Vk=1;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=.${domain}`;
+    document.cookie = `googtrans=;Vk=1;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+    
+    const value = `/auto/${langCode}`;
+    document.cookie = `googtrans=${value};path=/;domain=.${domain}`;
+    document.cookie = `googtrans=${value};path=/;`;
+
     setCurrentLang(langCode);
     setIsOpen(false);
-    window.location.reload(); 
+    window.location.reload();
   };
 
   const styles = {
@@ -57,7 +93,7 @@ export default function LanguageSwitcher({ variant = 'default' }) {
   };
 
   const activeStyle = styles[variant] || styles.default;
-  const currentLangLabel = languages.find(l => l.code === currentLang)?.label || 'Indonesia';
+  const currentLabel = languages.find(l => l.code === currentLang)?.label || 'Indonesia';
 
   return (
     <div className={`relative ${activeStyle.wrapper}`}>
@@ -67,20 +103,15 @@ export default function LanguageSwitcher({ variant = 'default' }) {
       >
         <div className="flex items-center gap-2">
           <Languages className="w-5 h-5" />
-          <span className="notranslate">
-            {currentLangLabel}
-          </span>
+          <span className="notranslate">{currentLabel}</span>
         </div>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
         <>
-          <div 
-            className="fixed inset-0 z-40" 
-            onClick={() => setIsOpen(false)} 
-          />
-          <div className={`absolute bg-white rounded-xl shadow-xlQl border border-slate-100 py-1 z-50 animate-in fade-in zoom-in-95 duration-200 max-h-60 overflow-y-auto custom-scrollbar ${activeStyle.dropdown}`}>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <div className={`absolute bg-white rounded-xl shadow-xl border border-slate-100 py-1 z-50 animate-in fade-in zoom-in-95 duration-200 max-h-60 overflow-y-auto custom-scrollbar ${activeStyle.dropdown}`}>
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -90,11 +121,7 @@ export default function LanguageSwitcher({ variant = 'default' }) {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <img 
-                    src={lang.flag} 
-                    alt={lang.label} 
-                    className="w-5 h-3.5 object-cover rounded-[2px] shadow-sm" 
-                  />
+                  <img src={lang.flag} alt={lang.label} className="w-5 h-3.5 object-cover rounded-[2px] shadow-sm" />
                   <span className="notranslate">{lang.label}</span>
                 </div>
                 {currentLang === lang.code && <Check className="w-4 h-4" />}

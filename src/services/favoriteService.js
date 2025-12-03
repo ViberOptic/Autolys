@@ -1,14 +1,10 @@
-// src/services/favoriteService.js
 import { supabase } from '../config/supabase';
 
 const favoriteService = {
   async getFavorites() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session?.user) {
-        return { success: true, data: [] };
-      }
+      if (!session?.user) return { success: true, data: [] };
 
       const { data, error } = await supabase
         .from('favorites')

@@ -1,4 +1,3 @@
-// src/hooks/useFavorites.js
 import { useState, useEffect, useCallback } from 'react';
 import favoriteService from '../services/favoriteService';
 
@@ -30,9 +29,7 @@ export function useIsFavorited(carId) {
     const previousState = isFavorited;
     setIsFavorited(!previousState);
 
-    const result = await favoriteService.toggleFavorite({
-      car_id: parseInt(carId)
-    });
+    const result = await favoriteService.toggleFavorite(parseInt(carId));
 
     if (!result.success) {
       setIsFavorited(previousState);
@@ -52,12 +49,7 @@ export function useFavorites() {
   const fetchFavorites = useCallback(async () => {
     setLoading(true);
     const { success, data } = await favoriteService.getFavorites();
-    
-    if (success) {
-      setFavorites(data || []);
-    } else {
-      setFavorites([]);
-    }
+    setFavorites(success ? data || [] : []);
     setLoading(false);
   }, []);
 

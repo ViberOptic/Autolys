@@ -8,7 +8,26 @@ export const carService = {
         throw new Error("Nama dan harga wajib diisi.");
       }
 
+      const { data: existingIds, error: idError } = await supabase
+        .from('cars')
+        .select('id')
+        .order('id', { ascending: true });
+
+      if (idError) throw idError;
+
+      let nextId = 1;
+      if (existingIds && existingIds.length > 0) {
+        for (const item of existingIds) {
+          if (item.id === nextId) {
+            nextId++;
+          } else if (item.id > nextId) {
+            break;
+          }
+        }
+      }
+
       const payload = {
+        id: nextId,
         name: carData.name,
         brand: carData.brand,
         category: carData.category,

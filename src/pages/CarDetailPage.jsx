@@ -51,7 +51,7 @@ export default function CarDetailPage({ id, onBack }) {
           </button>
           
           <div className="p-2 bg-black/20 backdrop-blur-md rounded-full">
-             <FavoriteButton recipeId={car.id} size="md" />
+             <FavoriteButton carId={car.id} size="md" />
           </div>
         </div>
 
@@ -175,11 +175,8 @@ function SpecItem({ icon, label, value, isMetric }) {
           return (
             <p className="font-semibold text-slate-900 text-sm sm:text-base leading-snug">
               {parts[1] && <span>{parts[1].trim()} </span>}
-              
               <span className="notranslate">{parts[2]}</span>
-              
               {unit && <span className={isMetric ? 'notranslate' : ''}> {unit}</span>}
-              
               {rest && <span> {rest}</span>}
             </p>
           );

@@ -1,14 +1,27 @@
 // src/pages/AboutPage.jsx
+import { useState } from 'react';
 import logoUrl from '../assets/LOGORN.png';
 import { useAuth } from '../context/AuthContext';
 import LanguageSwitcher from '../components/common/LanguageSwitcher';
-import { Zap, Smartphone, Cloud, Code, Heart, ShieldCheck, Github, Instagram, LogOut, Settings, Globe } from 'lucide-react';
+import { Zap, Smartphone, Cloud, Code, Heart, ShieldCheck, Github, Instagram, LogOut, Settings, Globe, Loader2 } from 'lucide-react';
 
 export default function AboutPage({ onNavigate }) {
   const { signOut } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
-    await signOut();
+    if (isLoading) return;
+    setIsLoading(true);
+    
+    try {
+      const { error } = await signOut();
+      if (error) throw error;
+    } catch (error) {
+      console.error("Logout error:", error.message);
+      alert("Gagal keluar: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const features = [
@@ -67,6 +80,7 @@ export default function AboutPage({ onNavigate }) {
 
             <div className="flex justify-center gap-3 flex-wrap mt-2 relative z-10">
               <button 
+                type="button"
                 onClick={() => onNavigate('manage')}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white hover:bg-slate-800 font-medium rounded-xl transition-all active:scale-95 shadow-lg shadow-slate-200"
               >
@@ -75,11 +89,17 @@ export default function AboutPage({ onNavigate }) {
               </button>
 
               <button 
+                type="button"
                 onClick={handleLogout}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 font-medium rounded-xl transition-all active:scale-95 border border-red-100 shadow-sm"
+                disabled={isLoading}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 font-medium rounded-xl transition-all active:scale-95 border border-red-100 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <LogOut className="w-4 h-4" />
-                LogOut
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <LogOut className="w-4 h-4" />
+                )}
+                {isLoading ? 'Keluar...' : 'LogOut'}
               </button>
             </div>
           </div>

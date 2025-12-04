@@ -42,7 +42,7 @@ export default function LoginPage({ onNavigate }) {
             <img 
               src={logoUrl} 
               alt="Autolys" 
-              className="h-12 w-auto mb-6 mx-auto sm:mx-0 transition-transform hover:scale-105" 
+              className="h-20 sm:h-24 w-auto mb-8 mx-auto sm:mx-0 transition-transform hover:scale-105 drop-shadow-sm" 
             />
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
               Selamat Datang Kembali

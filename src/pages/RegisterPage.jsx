@@ -1,3 +1,4 @@
+// src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
@@ -71,7 +72,7 @@ export default function RegisterPage({ onNavigate }) {
         />
         
         <div className="relative z-20 h-full flex flex-col justify-between p-16 text-white">
-          <img src={logoUrl} alt="Autolys" className="h-10 w-auto self-start opacity-90 drop-shadow-md" />
+          <img src={logoUrl} alt="Autolys" className="h-12 w-auto self-start opacity-90 drop-shadow-md" />
           <div className="space-y-4 mb-10">
             <h2 className="text-5xl font-bold leading-tight">
               Mulai Perjalanan <br/> Anda
@@ -92,6 +93,11 @@ export default function RegisterPage({ onNavigate }) {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           
           <div className="mb-10 text-center sm:text-left">
+            <img 
+              src={logoUrl} 
+              alt="Autolys" 
+              className="h-20 sm:h-24 w-auto mb-8 mx-auto sm:mx-0 transition-transform hover:scale-105 drop-shadow-sm" 
+            />
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
               Buat Akun Baru
             </h2>
